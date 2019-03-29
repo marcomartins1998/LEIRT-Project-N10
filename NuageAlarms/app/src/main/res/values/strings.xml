@@ -1,0 +1,29 @@
+<resources>
+    <string name="app_name">NuageMobileAlarms</string>
+    <string name="server_name_ip">Server Name/IP:</string>
+    <string name="server_port">Server Port:</string>
+    <string name="name_ip_input">Ex: NokiaServer123/127.0.0.1</string>
+    <string name="port_input">Ex: 8443</string>
+    <string name="button_enter">Enter</string>
+
+    <string name="companyname">Company Name:</string>
+    <string name="username">Username:</string>
+    <string name="companyname_hint">Ex: csp</string>
+    <string name="username_hint">Ex: username123</string>
+    <string name="password">Password:</string>
+
+    <string name="button_alarmlist">Search all alarms.</string>
+    <string name="button_alarmnotifications">Set alarm notification settings.</string>
+    <string name="button_nuagedescription">Nuage description.</string>
+
+
+    <string-array name="all_entities">
+        <item>Entreprise</item>
+        <item>Domain</item>
+        <item>Zone</item>
+        <item>VPort</item>
+    </string-array>
+    <string name="button_send">Send</string>
+    <string name="button_add">Add</string>
+
+</resources>
