@@ -11,11 +11,15 @@ import com.android.volley.toolbox.JsonObjectRequest
 import com.example.nuagemobilealarms.HomeActivity
 import com.example.nuagemobilealarms.LoginActivity
 import com.example.nuagemobilealarms.MainActivity
+import com.example.nuagemobilealarms.dto.Domain
 import com.example.nuagemobilealarms.helper.AndroidHelper
 import org.json.JSONArray
 import org.json.JSONObject
 import java.util.*
 import kotlin.text.Charsets.UTF_8
+import com.fasterxml.jackson.databind.ObjectMapper
+import java.lang.Exception
+
 
 //TODO try to clean repeated code
 class VolleyHelper(val context: Context, val intent: Intent, val vs: VolleySingleton){
@@ -29,7 +33,7 @@ class VolleyHelper(val context: Context, val intent: Intent, val vs: VolleySingl
             null,
             Response.Listener(rspAction),
             Response.ErrorListener {
-                AndroidHelper().toastMessage(context, errorMsg)
+                AndroidHelper.toastMessage(context, errorMsg)
             }
         ){
             override fun getHeaders(): MutableMap<String, String> = headers
@@ -47,7 +51,7 @@ class VolleyHelper(val context: Context, val intent: Intent, val vs: VolleySingl
             Response.Listener(rspAction),
             Response.ErrorListener {
                 println(it)
-                AndroidHelper().toastMessage(context, errorMsg)
+                AndroidHelper.toastMessage(context, errorMsg)
             }
         ){
             override fun getHeaders(): MutableMap<String, String> = headers
@@ -68,8 +72,7 @@ class VolleyHelper(val context: Context, val intent: Intent, val vs: VolleySingl
         val headers = HashMap<String, String>()
         headers["X-Nuage-Organization"] = extras.getString("companyname")!!.trim()
         headers["Content-type"] = "application/json"
-        headers["Authorization"] = "Basic "+ Base64.encodeToString("${extras.getString("username")!!.trim()}:${extras.getString("password")!!.trim()}".toByteArray(), Base64.DEFAULT)
-        intent.putExtras(extras)
+        headers["Authorization"] = "Basic "+ extras.getString("initauth")
 
         val jsonArr = JSONArrayRequest("$url/me", Request.Method.GET, headers, null, "Login fail, please try again.", rspAction)
         jsonArr.tag = TAG
@@ -82,25 +85,36 @@ class VolleyHelper(val context: Context, val intent: Intent, val vs: VolleySingl
         if(Calendar.getInstance().time.time > extras.getLong("authexpiry")){
             NuageAuthRequest(url){
                 val apiKey = it?.getJSONObject(0)?.getString("APIKey")
-                val apiKeyExpiry = it?.getJSONObject(0)?.getInt("APIKeyExpiry")
+                val apiKeyExpiry = it?.getJSONObject(0)?.getLong("APIKeyExpiry")
                 intent.putExtra("auth", "Basic "+ Base64.encodeToString("${extras.getString("username")!!.trim()}:$apiKey".toByteArray(), 0))
                 intent.putExtra("authexpiry", apiKeyExpiry)
-                intent.putExtras(extras)
                 action()
             }
-        } else action(); intent.putExtras(extras)
+        } else action()
     }
 
-    fun NuageGetDomains(url: String, rspAction: (JSONArray?) -> Unit){
+    fun NuageGetDomains(url: String, rspAction: (List<Domain>) -> Unit){
         NuageAuthIfExpired(url){
             val extras = intent.extras!!
             val headers = HashMap<String, String>()
             headers["X-Nuage-Organization"] = extras.getString("companyname")!!.trim()
             headers["Content-type"] = "application/json"
             headers["Authorization"] = extras.getString("auth")
-            intent.putExtras(extras)
 
-            val jsonArr = JSONArrayRequest("$url/domains", Request.Method.GET, headers, null, "Unable to get domains.", rspAction)
+            val jsonArr = JSONArrayRequest("$url/domains", Request.Method.GET, headers, null, "Unable to get domains."){
+                val mapper = ObjectMapper()
+                try {
+                    val domainList: List<Domain> = mapper.readValue(
+                        it.toString(),
+                        mapper.typeFactory.constructCollectionType(List::class.java, Domain::class.java)
+                    )
+                    rspAction(domainList)
+
+                } catch (e: Exception){
+                    AndroidHelper.toastMessage(context, e.message)
+                    println(e.message)
+                }
+            }
             jsonArr.tag = TAG
             vs.addToRequestQueue(jsonArr)
         }

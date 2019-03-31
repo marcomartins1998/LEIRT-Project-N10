@@ -10,12 +10,15 @@ import com.android.volley.toolbox.Volley
 import com.example.nuagemobilealarms.connect.NukeSSLCerts
 import com.example.nuagemobilealarms.connect.VolleyHelper
 import com.example.nuagemobilealarms.connect.VolleySingleton
+import com.example.nuagemobilealarms.dto.Properties
 import com.example.nuagemobilealarms.helper.AndroidHelper
+import com.example.nuagemobilealarms.helper.FileHelper
 import org.json.JSONArray
 import org.json.JSONObject
 
 class MainActivity : AppCompatActivity(){
     lateinit var vs: VolleySingleton
+    lateinit var vh: VolleyHelper
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,7 +28,7 @@ class MainActivity : AppCompatActivity(){
         NukeSSLCerts.nuke()
 
         vs = VolleySingleton.getInstance(this.applicationContext)
-        val vh = VolleyHelper(this, intent, vs)
+        vh = VolleyHelper(this, intent, vs)
 
         //TODO testar com maus inputs
         //val servername = findViewById<EditText>(R.id.serverNameIpInput).text.toString().trim().split("/")[0]
@@ -46,11 +49,18 @@ class MainActivity : AppCompatActivity(){
                     val intent = Intent(this@MainActivity, LoginActivity::class.java)
                     intent.putExtra("servername", servername)
                     intent.putExtra("url", url+"/api/${currver?.opt("version")}")
+
+                    //Store properties in internal file system
+                    val properties = FileHelper(this).getProperties()
+                    properties.servername = servername
+                    properties.url = url+"/api/${currver?.opt("version")}"
+                    FileHelper(this).putProperties(properties)
+
                     startActivity(intent)
                 }
             }
             else {
-                AndroidHelper().toastMessage(this, "Please fill all input fields.")
+                AndroidHelper.toastMessage(this, "Please fill all input fields.")
             }
         }
     }
@@ -59,14 +69,6 @@ class MainActivity : AppCompatActivity(){
         super.onStop()
         vs.requestQueue.cancelAll("cancelAll")
     }
-
-    /*fun JSONArray.forEach(t: (JSONObject) -> Unit) {
-        var index = 0
-        while(index < this.length()){
-            t(this.optJSONObject(index))
-            index++
-        }
-    }*/
 
     fun JSONArray.findFirst(pred: (JSONObject) -> Boolean): JSONObject?{
         var index = 0

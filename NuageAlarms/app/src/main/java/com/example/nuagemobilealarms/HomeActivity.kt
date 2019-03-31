@@ -9,14 +9,15 @@ import com.example.nuagemobilealarms.connect.VolleyHelper
 import com.example.nuagemobilealarms.connect.VolleySingleton
 
 class HomeActivity : AppCompatActivity() {
-    lateinit var vs : VolleySingleton
+    lateinit var vs: VolleySingleton
+    lateinit var vh: VolleyHelper
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
 
         vs = VolleySingleton.getInstance(this.applicationContext)
-        val vh = VolleyHelper(this, intent, vs)
+        vh = VolleyHelper(this, intent, vs)
 
         val subtitle = findViewById<TextView>(R.id.subTitle)
         val alarmlistbutton = findViewById<Button>(R.id.button_alarmlist)

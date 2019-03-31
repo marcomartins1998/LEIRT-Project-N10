@@ -23,6 +23,9 @@
         <item>Zone</item>
         <item>VPort</item>
     </string-array>
+
+    <string name="existing_entities">All existing entities:</string>
+    <string name="entity_domain">Domain:</string>
     <string name="button_send">Send</string>
     <string name="button_add">Add</string>
 
