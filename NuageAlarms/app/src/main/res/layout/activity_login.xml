@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:tools="http://schemas.android.com/tools"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/colorBackground">
@@ -132,7 +132,7 @@
                     android:inputType="textPassword"
                     android:ems="10"
                     android:id="@+id/passWordInput"
-                    android:text="CcezDSxzglEqO4VS"
+                    android:text="JMh1aGt39uGwktc8"
                     android:layout_marginStart="8dp"
                     app:layout_constraintStart_toStartOf="parent" android:layout_marginEnd="8dp"
                     app:layout_constraintEnd_toEndOf="parent"

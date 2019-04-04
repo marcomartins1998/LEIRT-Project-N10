@@ -73,7 +73,7 @@
                     app:layout_constraintStart_toStartOf="parent" android:layout_marginEnd="85dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     android:hint="@string/name_ip_input"
-                    android:textStyle="italic" android:text="NokiaServer/124.252.253.203"
+                    android:textStyle="italic" android:text="NokiaServer/124.252.253.219"
                     app:layout_constraintTop_toBottomOf="@+id/serverNameIp"/>
             <ImageView
                     android:layout_width="wrap_content"
