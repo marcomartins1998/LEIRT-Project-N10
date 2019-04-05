@@ -4,6 +4,7 @@
     <string name="server_port">Server Port:</string>
     <string name="name_ip_input">Ex: NokiaServer123/127.0.0.1</string>
     <string name="port_input">Ex: 8443</string>
+    <string name="remenber_me">Remenber me</string>
     <string name="button_enter">Enter</string>
 
     <string name="companyname">Company Name:</string>

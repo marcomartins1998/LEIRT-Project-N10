@@ -2,23 +2,18 @@ package com.example.nuagemobilealarms.connect
 
 import android.content.Context
 import android.content.Intent
-import android.support.v4.content.ContextCompat.startActivity
 import android.util.Base64
 import com.android.volley.Request
 import com.android.volley.Response
 import com.android.volley.toolbox.JsonArrayRequest
 import com.android.volley.toolbox.JsonObjectRequest
-import com.example.nuagemobilealarms.HomeActivity
-import com.example.nuagemobilealarms.LoginActivity
-import com.example.nuagemobilealarms.MainActivity
 import com.example.nuagemobilealarms.dto.Domain
 import com.example.nuagemobilealarms.helper.AndroidHelper
+import com.fasterxml.jackson.databind.ObjectMapper
 import org.json.JSONArray
 import org.json.JSONObject
 import java.util.*
 import kotlin.text.Charsets.UTF_8
-import com.fasterxml.jackson.databind.ObjectMapper
-import java.lang.Exception
 
 
 //TODO try to clean repeated code
@@ -72,8 +67,11 @@ class VolleyHelper(val context: Context, val intent: Intent, val vs: VolleySingl
         val headers = HashMap<String, String>()
         headers["X-Nuage-Organization"] = extras.getString("companyname")!!.trim()
         headers["Content-type"] = "application/json"
-        headers["Authorization"] = "Basic "+ extras.getString("initauth")
-
+        //headers["Authorization"] = "Basic "+ extras.getString("initauth")
+        headers["Authorization"] = "Basic " + Base64.encodeToString(
+            "${extras.getString("username")}:${extras.getString("password")}".toByteArray(),
+            Base64.DEFAULT
+        )
         val jsonArr = JSONArrayRequest("$url/me", Request.Method.GET, headers, null, "Login fail, please try again.", rspAction)
         jsonArr.tag = TAG
         vs.addToRequestQueue(jsonArr)

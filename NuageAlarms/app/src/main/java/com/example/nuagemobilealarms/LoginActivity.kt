@@ -33,9 +33,9 @@ class LoginActivity: AppCompatActivity() {
         enterbutton.setOnClickListener {
             if(username.text != null && password.text != null && companyname.text != null) {
                 intent.putExtra("companyname",companyname.text.toString())
-                intent.putExtra("username",username.text.toString())
-                //intent.putExtra("password",password.text.toString())
-                intent.putExtra("initauth", Base64.encodeToString("${username.text.trim()}:${password.text!!.trim()}".toByteArray(), Base64.DEFAULT))
+                intent.putExtra("username", username.text.trim())
+                intent.putExtra("password", password.text.toString())
+                //intent.putExtra("initauth", Base64.encodeToString("${username.text.trim()}:${password.text!!.trim()}".toByteArray(), Base64.DEFAULT))
                 extras = intent.extras!!
 
                 vh.NuageAuthRequest(url){

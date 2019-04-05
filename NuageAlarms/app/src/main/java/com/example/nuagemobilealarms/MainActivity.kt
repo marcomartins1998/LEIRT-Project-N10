@@ -4,21 +4,25 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.widget.Button
+import android.widget.CheckBox
 import android.widget.EditText
-import com.android.volley.Request
-import com.android.volley.toolbox.Volley
 import com.example.nuagemobilealarms.connect.NukeSSLCerts
 import com.example.nuagemobilealarms.connect.VolleyHelper
 import com.example.nuagemobilealarms.connect.VolleySingleton
-import com.example.nuagemobilealarms.dto.Properties
 import com.example.nuagemobilealarms.helper.AndroidHelper
 import com.example.nuagemobilealarms.helper.FileHelper
 import org.json.JSONArray
 import org.json.JSONObject
 
 class MainActivity : AppCompatActivity(){
-    lateinit var vs: VolleySingleton
-    lateinit var vh: VolleyHelper
+    val vs = VolleySingleton(this.applicationContext)
+    val vh = VolleyHelper(this, intent, vs)
+    val fh = FileHelper(this)
+
+    lateinit var servernameip: EditText
+    lateinit var port: EditText
+    lateinit var remenbercheck: CheckBox
+    lateinit var enter: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,18 +31,19 @@ class MainActivity : AppCompatActivity(){
         //TODO REMOVE IN FINAL PRODUCT!!!
         NukeSSLCerts.nuke()
 
-        vs = VolleySingleton.getInstance(this.applicationContext)
-        vh = VolleyHelper(this, intent, vs)
+        //vs = VolleySingleton.getInstance(this.applicationContext)
+        //vh = VolleyHelper(this, intent, vs)
 
         //TODO testar com maus inputs
-        //val servername = findViewById<EditText>(R.id.serverNameIpInput).text.toString().trim().split("/")[0]
-        //val ip = findViewById<EditText>(R.id.serverNameIpInput).text.toString().trim().split("/")[1]
-        val servernameip = findViewById<EditText>(R.id.serverNameIpInput)
-        val port = findViewById<EditText>(R.id.serverPortInput)
-        val enter = findViewById<Button>(R.id.enterButton)
+        servernameip = findViewById(R.id.serverNameIpInput)
+        port = findViewById(R.id.serverPortInput)
+        remenbercheck = findViewById(R.id.rememberMeCheck)
+        enter = findViewById(R.id.enterButton)
+
+        val properties = fh.getProperties()
 
         enter.setOnClickListener{
-            if(servernameip != null && port.text != null){
+            if (servernameip.text != null && port.text != null) {
                 //TODO verificar formato da string de input para evitar problemas de segurança
                 val servername = servernameip.text.trim().split("/")[0]
                 val ip = servernameip.text.trim().split("/")[1]
