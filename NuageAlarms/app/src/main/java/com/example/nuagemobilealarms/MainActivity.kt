@@ -64,13 +64,6 @@ class MainActivity : AppCompatActivity(){
                         true -> fh.getProperties().replace(servernameip = servernameip.text.toString(), port = port.text.toString())
                         false -> fh.getProperties().replace(servernameip = null, port = null)
                     }
-                    /*if(rememberservercheck.isActivated) properties = fh.getProperties().replace(
-                        servernameip = servernameip.text.toString(),
-                        //servername = servername,
-                        port = port.text.toString()
-                        //url = url+"/api/${currver?.opt("version")}"
-                    )
-                    else properties = fh.getProperties().replace(servernameip = null, port = null)*/
 
                     /*properties.servernameip = servernameip
                     properties.servername = servername
