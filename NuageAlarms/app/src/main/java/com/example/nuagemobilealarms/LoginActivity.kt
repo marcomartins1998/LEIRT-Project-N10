@@ -5,27 +5,40 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.util.Base64
 import android.widget.Button
+import android.widget.CheckBox
 import android.widget.EditText
 import com.example.nuagemobilealarms.connect.VolleyHelper
 import com.example.nuagemobilealarms.connect.VolleySingleton
+import com.example.nuagemobilealarms.dto.Properties
 import com.example.nuagemobilealarms.helper.AndroidHelper
 import com.example.nuagemobilealarms.helper.FileHelper
 
 class LoginActivity: AppCompatActivity() {
     lateinit var vs: VolleySingleton
     lateinit var vh: VolleyHelper
+    lateinit var fh: FileHelper
+
+    lateinit var companyname: EditText
+    lateinit var username: EditText
+    lateinit var password: EditText
+    lateinit var remembermecheck: CheckBox
+    lateinit var enterbutton: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         vs = VolleySingleton.getInstance(this.applicationContext)
         vh = VolleyHelper(this, intent, vs)
+        fh = FileHelper(this)
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
 
-        val companyname = findViewById<EditText>(R.id.companyNameInput)
-        val username = findViewById<EditText>(R.id.userNameInput)
-        val password = findViewById<EditText>(R.id.passWordInput)
-        val enterbutton = findViewById<Button>(R.id.enterButton)
+        companyname = findViewById(R.id.companyNameInput)
+        username = findViewById(R.id.userNameInput)
+        password = findViewById(R.id.passWordInput)
+        remembermecheck = findViewById(R.id.rememberMeCheck)
+        enterbutton = findViewById(R.id.enterButton)
+
+        fh.getProperties().assignToLogin(companyname, username)
 
         var extras: Bundle = intent.extras!!
         val url = extras.getString("url")!!
@@ -46,14 +59,23 @@ class LoginActivity: AppCompatActivity() {
                     intent.putExtra("authexpiry", apiKeyExpiry)
                     intent.putExtras(extras)
 
-                    //Store properties in internal file system
-                    val properties = FileHelper(this).getProperties()
+                    val properties: Properties = when(remembermecheck.isActivated){
+                        true -> fh.getProperties().replace(servernameip = companyname.text.toString(), port = username.text.toString())
+                        false -> fh.getProperties().replace(servernameip = null, port = null)
+                    }
+                    /*if(remembermecheck.isActivated) properties = fh.getProperties().replace(
+                        companyname = companyname.text.toString(),
+                        username = username.text.toString()
+                    )
+                    else properties = fh.getProperties().replace( companyname = null, username = null)*/
+                    //Store properties in internal file system or not depending on the remember server check
+                    /*val properties = FileHelper(this).getProperties()
                     properties.username = extras.getString("username")
                     properties.companyname = extras.getString("companyname")
                     properties.initauth = extras.getString("initauth")
                     properties.auth = intent.extras!!.getString("auth")
-                    properties.authexpiry = intent.extras!!.getString("authexpiry")
-                    FileHelper(this).putProperties(properties)
+                    properties.authexpiry = intent.extras!!.getString("authexpiry")*/
+                    fh.putProperties(properties)
 
                     startActivity(intent)
                 }

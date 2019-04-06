@@ -4,7 +4,7 @@
     <string name="server_port">Server Port:</string>
     <string name="name_ip_input">Ex: NokiaServer123/127.0.0.1</string>
     <string name="port_input">Ex: 8443</string>
-    <string name="remenber_me">Remenber me</string>
+    <string name="remember_server">Remember server</string>
     <string name="button_enter">Enter</string>
 
     <string name="companyname">Company Name:</string>
@@ -12,6 +12,7 @@
     <string name="companyname_hint">Ex: csp</string>
     <string name="username_hint">Ex: username123</string>
     <string name="password">Password:</string>
+    <string name="remember_me">Remember me</string>
 
     <string name="button_alarmlist">Search all alarms.</string>
     <string name="button_alarmnotifications">Set alarm notification settings.</string>

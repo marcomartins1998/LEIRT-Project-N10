@@ -17,7 +17,7 @@ class FileHelper(val context: Context){
             val br = BufferedReader(InputStreamReader(fileis))
             br.read(sb)
         } catch (e: FileNotFoundException){
-            AndroidHelper.toastMessage(context, e.message)
+            return "{}"
         } catch (e: IOException){
             AndroidHelper.toastMessage(context, e.message)
         }
