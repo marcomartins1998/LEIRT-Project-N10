@@ -72,7 +72,7 @@ class LoginActivity: AppCompatActivity() {
                     /*val properties = FileHelper(this).getProperties()
                     properties.username = extras.getString("username")
                     properties.companyname = extras.getString("companyname")
-                    properties.initauth = extras.getString("initauth")
+                    //properties.initauth = extras.getString("initauth")
                     properties.auth = intent.extras!!.getString("auth")
                     properties.authexpiry = intent.extras!!.getString("authexpiry")*/
                     fh.putProperties(properties)

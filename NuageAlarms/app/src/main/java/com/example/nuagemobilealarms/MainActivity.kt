@@ -42,10 +42,12 @@ class MainActivity : AppCompatActivity(){
         rememberservercheck = findViewById(R.id.rememberServerCheck)
         enter = findViewById(R.id.enterButton)
 
-        //fh.getProperties().assignToMain(servernameip, port)
+        fh.getProperties().assignToMain(servernameip, port)
+        val servernameipregex = """.[^/]*/\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}""".toRegex()
+        val portregex = """\d{1,5}""".toRegex()
 
         enter.setOnClickListener{
-            if (servernameip.text.contains(""".+\\\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}""".toRegex()) && port.text.contains("""\d{1,5}""".toRegex())) {
+            if (servernameipregex.matches(servernameip.text) && portregex.matches(port.text)) {
                 //TODO verificar formato da string de input para evitar problemas de segurança
                 val servername = servernameip.text.trim().split("/")[0]
                 val ip = servernameip.text.trim().split("/")[1]
