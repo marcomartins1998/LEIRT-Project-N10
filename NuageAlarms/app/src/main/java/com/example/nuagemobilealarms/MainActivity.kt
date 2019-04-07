@@ -34,7 +34,7 @@ class MainActivity : AppCompatActivity(){
 
         vs = VolleySingleton.getInstance(this.applicationContext)
         vh = VolleyHelper(this, intent, vs)
-        fh = FileHelper(this)
+        fh = FileHelper(this.applicationContext)
 
         //TODO testar com maus inputs
         servernameip = findViewById(R.id.serverNameIpInput)
@@ -60,17 +60,15 @@ class MainActivity : AppCompatActivity(){
                     intent.putExtra("url", url+"/api/${currver?.opt("version")}")
 
                     //Store properties in internal file system or not depending on the remember server check
-                    val properties: Properties = when(rememberservercheck.isActivated){
+                    val properties: Properties = when (rememberservercheck.isChecked) {
                         true -> fh.getProperties().replace(servernameip = servernameip.text.toString(), port = port.text.toString())
                         false -> fh.getProperties().replace(servernameip = null, port = null)
                     }
 
-                    /*properties.servernameip = servernameip
-                    properties.servername = servername
-                    properties.url = url+"/api/${currver?.opt("version")}"*/
                     fh.putProperties(properties)
 
                     startActivity(intent)
+                    this.overridePendingTransition(0, 0)
                 }
             }
             else {

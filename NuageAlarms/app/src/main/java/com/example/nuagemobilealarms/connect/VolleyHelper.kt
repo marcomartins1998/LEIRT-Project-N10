@@ -65,7 +65,7 @@ class VolleyHelper(val context: Context, val intent: Intent, val vs: VolleySingl
     fun NuageAuthRequest(url: String, rspAction: (JSONArray?) -> Unit){
         val extras = intent.extras!!
         val headers = HashMap<String, String>()
-        headers["X-Nuage-Organization"] = extras.getString("companyname")!!.trim()
+        headers["X-Nuage-Organization"] = extras.getString("companyname")
         headers["Content-type"] = "application/json"
         //headers["Authorization"] = "Basic "+ extras.getString("initauth")
         headers["Authorization"] = "Basic " + Base64.encodeToString(
@@ -95,7 +95,7 @@ class VolleyHelper(val context: Context, val intent: Intent, val vs: VolleySingl
         NuageAuthIfExpired(url){
             val extras = intent.extras!!
             val headers = HashMap<String, String>()
-            headers["X-Nuage-Organization"] = extras.getString("companyname")!!.trim()
+            headers["X-Nuage-Organization"] = extras.getString("companyname")
             headers["Content-type"] = "application/json"
             headers["Authorization"] = extras.getString("auth")
 

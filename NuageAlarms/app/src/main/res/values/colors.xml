@@ -9,5 +9,7 @@
     <color name="colorFilterText">#D13109</color>
     <color name="colorCommonText">#000000</color>
     <color name="colorButton">#464545</color>
-    <color name="progressCircle">#FF5722</color>
+
+    <color name="colorMenuTheme">#75000000</color>
+    <color name="colorMenuText">#B37C1E</color>
 </resources>

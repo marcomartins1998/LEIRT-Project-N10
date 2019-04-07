@@ -11,39 +11,43 @@ const val PROPERTIES_FILENAME = "properties.txt"
 class FileHelper(val context: Context){
 
     fun read(filename: String): String{
-        val sb = charArrayOf()
+        var fileis: FileInputStream? = null
+        var str: String
         try {
-            val fileis = context.openFileInput(filename)
+            fileis = context.openFileInput(filename)
             val br = BufferedReader(InputStreamReader(fileis))
-            br.read(sb)
-        } catch (e: FileNotFoundException){
+            str = br.readText()
+            //br.read(sb)
+        } catch (e: IOException) {
             return "{}"
-        } catch (e: IOException){
-            AndroidHelper.toastMessage(context, e.message)
+        } finally {
+            fileis?.close()
         }
-        return if(String(sb) == "") "{}" else String(sb)
+        println("READ CHECK:" + str)
+        return if (str == "") "{}" else str
     }
 
     fun write(filename: String, input: String){
+        var fileos: FileOutputStream? = null
         try {
-            val fileos = context.openFileOutput(filename, MODE_PRIVATE)
+            fileos = context.openFileOutput(filename, MODE_PRIVATE)
             fileos.write(input.toByteArray())
-        } catch (e: FileNotFoundException){
-            AndroidHelper.toastMessage(context, e.message)
         } catch (e: IOException){
             AndroidHelper.toastMessage(context, e.message)
+        } finally {
+            fileos?.close()
         }
     }
 
     fun getProperties(): Properties{
         val mapper = ObjectMapper()
         val jsonString = read(PROPERTIES_FILENAME)
-        println(jsonString)
         return mapper.readValue(jsonString, Properties::class.java)
     }
 
     fun putProperties(properties: Properties){
         val mapper = ObjectMapper()
+        println("CHECK:" + mapper.writeValueAsString(properties))
         write(PROPERTIES_FILENAME, mapper.writeValueAsString(properties))
     }
 }

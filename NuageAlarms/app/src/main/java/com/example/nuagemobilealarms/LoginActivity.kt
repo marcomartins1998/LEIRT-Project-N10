@@ -27,7 +27,7 @@ class LoginActivity: AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         vs = VolleySingleton.getInstance(this.applicationContext)
         vh = VolleyHelper(this, intent, vs)
-        fh = FileHelper(this)
+        fh = FileHelper(this.applicationContext)
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
@@ -45,8 +45,8 @@ class LoginActivity: AppCompatActivity() {
 
         enterbutton.setOnClickListener {
             if(username.text != null && password.text != null && companyname.text != null) {
-                intent.putExtra("companyname",companyname.text.toString())
-                intent.putExtra("username", username.text.trim())
+                intent.putExtra("companyname", companyname.text.trim().toString())
+                intent.putExtra("username", username.text.trim().toString())
                 intent.putExtra("password", password.text.toString())
                 //intent.putExtra("initauth", Base64.encodeToString("${username.text.trim()}:${password.text!!.trim()}".toByteArray(), Base64.DEFAULT))
                 extras = intent.extras!!
@@ -59,22 +59,14 @@ class LoginActivity: AppCompatActivity() {
                     intent.putExtra("authexpiry", apiKeyExpiry)
                     intent.putExtras(extras)
 
-                    val properties: Properties = when(remembermecheck.isActivated){
-                        true -> fh.getProperties().replace(servernameip = companyname.text.toString(), port = username.text.toString())
-                        false -> fh.getProperties().replace(servernameip = null, port = null)
+                    val properties: Properties = when (remembermecheck.isChecked) {
+                        true -> fh.getProperties().replace(
+                            companyname = companyname.text.trim().toString(),
+                            username = username.text.trim().toString()
+                        )
+                        false -> fh.getProperties().replace(companyname = null, username = null)
                     }
-                    /*if(remembermecheck.isActivated) properties = fh.getProperties().replace(
-                        companyname = companyname.text.toString(),
-                        username = username.text.toString()
-                    )
-                    else properties = fh.getProperties().replace( companyname = null, username = null)*/
-                    //Store properties in internal file system or not depending on the remember server check
-                    /*val properties = FileHelper(this).getProperties()
-                    properties.username = extras.getString("username")
-                    properties.companyname = extras.getString("companyname")
-                    //properties.initauth = extras.getString("initauth")
-                    properties.auth = intent.extras!!.getString("auth")
-                    properties.authexpiry = intent.extras!!.getString("authexpiry")*/
+
                     fh.putProperties(properties)
 
                     startActivity(intent)
