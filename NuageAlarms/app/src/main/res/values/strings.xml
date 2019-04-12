@@ -18,16 +18,23 @@
     <string name="button_alarmnotifications">Set alarm notification settings.</string>
     <string name="button_nuagedescription">Nuage description.</string>
 
+    <string name="nuage_enterprises">Enterprises</string>
+    <string name="nuage_domains">Domains</string>
+    <string name="nuage_zones">Zones</string>
+    <string name="nuage_vports">VPorts</string>
 
-    <string-array name="all_entities">
-        <item>Entreprise</item>
-        <item>Domain</item>
-        <item>Zone</item>
-        <item>VPort</item>
+    <string name="filters">Filters</string>
+    <string name="severity">Severity:</string>
+    <string-array name="severity_items">
+        <item>CRITICAL</item>
+        <item>MAJOR</item>
+        <item>MINOR</item>
+        <item>WARNING</item>
+        <item>INFO</item>
     </string-array>
 
+    <string name="existing_alarms">Existing Alarms:</string>
     <string name="existing_entities">All existing entities:</string>
-    <string name="entity_domain">Domain:</string>
     <string name="button_send">Send</string>
     <string name="button_add">Add</string>
 
@@ -37,7 +44,6 @@
     <string name="nav_settings">Settings</string>
     <string name="nav_description">Description</string>
 
-    <string name="title_activity_check_properties">CheckPropertiesActivity</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="nav_header_title">Android Studio</string>

@@ -10,6 +10,11 @@
     <color name="colorCommonText">#000000</color>
     <color name="colorButton">#464545</color>
 
-    <color name="colorMenuTheme">#75000000</color>
+    <color name="colorMenuTheme">#F3181717</color>
     <color name="colorMenuText">#B37C1E</color>
+
+    <color name="colorDropDownText">#FFFFFF</color>
+    <color name="colorDropDownBox">#000000</color>
+    <color name="colorDropDownItemBackgroud">#3A3737</color>
+    <color name="colorDropDownItemText">#C4B9B9</color>
 </resources>

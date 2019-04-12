@@ -1,24 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
       android:layout_width="match_parent"
-      android:layout_height="match_parent">
+      android:layout_height="match_parent"
+      android:background="@color/colorMenuTheme">
     <item android:id="@+id/nav_alarms"
           android:title="@string/nav_alarms"
-          android:itemTextAppearance="@color/colorMenuText"/>
+          android:icon="@drawable/ic_alarm"/>
 
     <item android:id="@+id/nav_alarm_notifications"
           android:title="@string/nav_alarm_notifications"
-          android:itemTextAppearance="@color/colorMenuText"/>
+          android:icon="@drawable/ic_alarm_notification"/>
 
     <item android:id="@+id/nav_account"
           android:title="@string/nav_account"
-          android:itemTextAppearance="@color/colorMenuText"/>
+          android:icon="@drawable/ic_account"/>
 
     <item android:id="@+id/nav_settings"
-          android:title="@string/nav_account"
-          android:itemTextAppearance="@color/colorMenuText"/>
+          android:title="@string/nav_settings"
+          android:icon="@drawable/ic_settings"/>
 
     <item android:id="@+id/nav_description"
           android:title="@string/nav_description"
-          android:itemTextAppearance="@color/colorMenuText"/>
+          android:icon="@drawable/ic_description"/>
 </menu>

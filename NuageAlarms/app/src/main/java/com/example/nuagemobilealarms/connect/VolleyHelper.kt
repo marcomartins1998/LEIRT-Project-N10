@@ -7,7 +7,7 @@ import com.android.volley.Request
 import com.android.volley.Response
 import com.android.volley.toolbox.JsonArrayRequest
 import com.android.volley.toolbox.JsonObjectRequest
-import com.example.nuagemobilealarms.dto.Domain
+import com.example.nuagemobilealarms.dto.DomainDto
 import com.example.nuagemobilealarms.helper.AndroidHelper
 import com.fasterxml.jackson.databind.ObjectMapper
 import org.json.JSONArray
@@ -89,9 +89,10 @@ class VolleyHelper(val context: Context, val intent: Intent, val vs: VolleySingl
                 action()
             }
         } else action()
+
     }
 
-    fun NuageGetDomains(url: String, rspAction: (List<Domain>) -> Unit){
+    fun NuageGetDomains(url: String, rspAction: (List<DomainDto>) -> Unit) {
         NuageAuthIfExpired(url){
             val extras = intent.extras!!
             val headers = HashMap<String, String>()
@@ -102,11 +103,11 @@ class VolleyHelper(val context: Context, val intent: Intent, val vs: VolleySingl
             val jsonArr = JSONArrayRequest("$url/domains", Request.Method.GET, headers, null, "Unable to get domains."){
                 val mapper = ObjectMapper()
                 try {
-                    val domainList: List<Domain> = mapper.readValue(
+                    val domainDtoList: List<DomainDto> = mapper.readValue(
                         it.toString(),
-                        mapper.typeFactory.constructCollectionType(List::class.java, Domain::class.java)
+                        mapper.typeFactory.constructCollectionType(List::class.java, DomainDto::class.java)
                     )
-                    rspAction(domainList)
+                    rspAction(domainDtoList)
 
                 } catch (e: Exception){
                     AndroidHelper.toastMessage(context, e.message)

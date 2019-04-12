@@ -39,7 +39,7 @@ class FileHelper(val context: Context){
         }
     }
 
-    fun getProperties(): Properties{
+    fun getProperties(): Properties {
         val mapper = ObjectMapper()
         val jsonString = read(PROPERTIES_FILENAME)
         return mapper.readValue(jsonString, Properties::class.java)

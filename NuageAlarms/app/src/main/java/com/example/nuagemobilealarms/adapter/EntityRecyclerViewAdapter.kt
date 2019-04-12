@@ -1,17 +1,7 @@
 package com.example.nuagemobilealarms.adapter
 
-import android.content.Context
-import android.support.constraint.ConstraintLayout
-import android.support.v7.widget.RecyclerView
-import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import android.widget.TextView
-import com.example.nuagemobilealarms.R
-import com.example.nuagemobilealarms.dto.Domain
-
-class EntityRecyclerViewAdapter(context: Context, val domainlist: List<Domain>) : RecyclerView.Adapter<EntityRecyclerViewAdapter.ViewHolder>(){
+/*
+class EntityRecyclerViewAdapter(context: Context, val domainlist: List<DomainDto>) : RecyclerView.Adapter<EntityRecyclerViewAdapter.ViewHolder>(){
     val TAG = "EntityRecViewAdapter"
     val entityTypeDomain = context.resources.getString(R.string.entity_domain)
 
@@ -38,4 +28,5 @@ class EntityRecyclerViewAdapter(context: Context, val domainlist: List<Domain>) 
                      val entityName: TextView = itemView.findViewById(R.id.entityName),
                      val entityDescription: TextView = itemView.findViewById(R.id.entityDescription)
     ) : RecyclerView.ViewHolder(itemView)
-}
+
+}*/

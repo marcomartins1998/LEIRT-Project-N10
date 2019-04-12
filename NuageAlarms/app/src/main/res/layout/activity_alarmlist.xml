@@ -5,51 +5,45 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".AlarmFiltersActivity">
+        android:background="@color/colorBackground"
+        tools:context=".AlarmFiltersActivity" android:id="@+id/alarmlistDrawerLayout">
 
     <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-        <android.support.v7.widget.RecyclerView
-                android:layout_width="0dp"
-                android:layout_height="105dp"
-                android:scrollbars="vertical"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:layout_marginEnd="24dp" android:id="@+id/filterRecView"
-                app:layout_constraintStart_toStartOf="parent"
-                android:layout_marginStart="24dp" android:layout_marginTop="8dp"
-                app:layout_constraintTop_toBottomOf="@+id/filterText"
-                android:backgroundTintMode="src_over" android:background="@color/colorViewBackground"
-                app:layout_constraintHorizontal_bias="0.0"/>
+        <ImageButton
+                android:layout_width="61dp"
+                android:layout_height="56dp" app:srcCompat="@drawable/ic_menu_button"
+                android:id="@+id/menuButton" android:backgroundTint="@color/colorBackground"
+                app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp" app:layout_constraintTop_toTopOf="parent" android:scaleType="fitCenter"/>
+
+        <Button
+                android:layout_width="wrap_content"
+                android:layout_height="56dp"
+                android:drawableEnd="@drawable/ic_dropdown_arrow"
+                android:text="@string/filters"
+                android:textColor="@color/colorDropDownText"
+                android:textAlignment="textStart"
+                android:textSize="18sp"
+                android:id="@+id/filterDropDown" app:layout_constraintStart_toEndOf="@+id/menuButton"
+                android:layout_marginStart="8dp" app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginEnd="8dp" android:layout_marginTop="8dp"
+                app:layout_constraintTop_toTopOf="parent" android:backgroundTint="@color/colorDropDownBox"
+                app:layout_constraintHorizontal_bias="0.32"/>
+
         <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/allEntitiesSubTitle" android:textSize="18sp"
-                android:text="@string/existing_entities" android:textColor="@color/colorText"
-                android:layout_marginTop="20dp"
-                app:layout_constraintTop_toBottomOf="@+id/filterRecView" android:layout_marginStart="8dp"
+                android:text="@string/existing_alarms" android:textColor="@color/colorCommonText"
+                android:layout_marginStart="8dp"
                 app:layout_constraintStart_toStartOf="parent" android:layout_marginEnd="8dp"
-                app:layout_constraintEnd_toEndOf="parent" app:layout_constraintHorizontal_bias="0.062"/>
-        <Spinner
-                android:layout_width="159dp"
-                android:layout_height="32dp"
-                android:id="@+id/entityDropDown"
-                app:layout_constraintStart_toStartOf="parent"
-                android:layout_marginStart="32dp"
-                app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="8dp"
-                app:layout_constraintHorizontal_bias="0.287" android:spinnerMode="dropdown"
-                android:foregroundTint="@color/colorPrimaryDark" tools:layout_editor_absoluteY="83dp"/>
-        <EditText
-                android:layout_width="159dp"
-                android:layout_height="37dp"
-                android:id="@+id/filterText"
-                android:textColor="@color/colorCommonText" android:inputType="textShortMessage"
-                android:textSize="14sp"
-                app:layout_constraintTop_toBottomOf="@+id/entityDropDown" android:layout_marginStart="8dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/addButton" app:layout_constraintHorizontal_bias="1.0"
-        />
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginTop="8dp" app:layout_constraintTop_toBottomOf="@+id/filtersConstraintLayout"
+                tools:layout_editor_absoluteY="8dp"/>
+
         <android.support.v7.widget.RecyclerView
                 android:layout_width="0dp"
                 android:layout_height="169dp"
@@ -57,30 +51,139 @@
                 app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="24dp"
                 android:layout_marginTop="8dp" app:layout_constraintTop_toBottomOf="@+id/allEntitiesSubTitle"
                 android:scrollbars="horizontal|vertical" android:background="@color/colorViewBackground"
-                android:id="@+id/entityRecView"
-        />
-        <Button
-                android:text="@string/button_add"
-                android:layout_width="72dp"
-                android:layout_height="69dp"
-                android:id="@+id/addButton"
-                android:textSize="10sp" app:layout_constraintEnd_toEndOf="parent"
-                android:layout_marginEnd="148dp"
-                app:layout_constraintStart_toEndOf="@+id/entityDropDown" app:layout_constraintHorizontal_bias="0.0"
-                android:elevation="0dp" tools:layout_editor_absoluteY="83dp"/>
-        <ImageButton
-                android:layout_width="79dp"
-                android:layout_height="78dp" app:srcCompat="@drawable/ic_icons8_menu"
-                android:id="@+id/menuButton"
-                app:layout_constraintTop_toTopOf="parent" app:layout_constraintStart_toStartOf="parent"
-        />
+                android:id="@+id/entityRecView"/>
+
+        <android.support.constraint.ConstraintLayout
+                android:layout_width="match_parent"
+                app:layout_constraintTop_toBottomOf="@+id/filterDropDown"
+                android:id="@+id/filtersConstraintLayout" app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" android:layout_height="wrap_content"
+                android:layout_marginStart="32dp" android:layout_marginEnd="32dp" android:visibility="visible">
+
+            <Button
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:drawableEnd="@drawable/ic_dropdown_arrow"
+                    android:text="@string/nuage_enterprises"
+                    android:textColor="@color/colorDropDownText"
+                    android:textAlignment="textStart"
+                    android:textSize="18sp"
+                    android:id="@+id/enterprisesDropDown"
+                    android:backgroundTint="@color/colorDropDownBox"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"/>
+
+            <android.support.v7.widget.RecyclerView
+                    android:layout_width="0dp"
+                    app:layout_constraintTop_toBottomOf="@+id/enterprisesDropDown"
+                    android:id="@+id/enterprisesRecyclerView"
+                    android:layout_height="20dp" app:layout_constraintStart_toStartOf="parent"
+                    android:layout_marginStart="8dp" app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_marginEnd="8dp"/>
+            <Button
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:drawableEnd="@drawable/ic_dropdown_arrow"
+                    android:text="@string/nuage_domains"
+                    android:textColor="@color/colorDropDownText"
+                    android:textAlignment="textStart"
+                    android:textSize="18sp"
+                    android:id="@+id/domainsDropDown"
+                    android:backgroundTint="@color/colorDropDownBox"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/enterprisesRecyclerView"/>
+
+            <android.support.v7.widget.RecyclerView
+                    android:layout_width="0dp"
+                    android:layout_height="20dp"
+                    app:layout_constraintTop_toBottomOf="@+id/domainsDropDown" android:id="@+id/domainsRecyclerView"
+                    app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="8dp"
+                    app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="8dp"/>
+            <Button
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:drawableEnd="@drawable/ic_dropdown_arrow"
+                    android:text="@string/nuage_zones"
+                    android:textColor="@color/colorDropDownText"
+                    android:textAlignment="textStart"
+                    android:textSize="18sp"
+                    android:id="@+id/zonesDropDown"
+                    android:backgroundTint="@color/colorDropDownBox"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/domainsRecyclerView"/>
+
+            <android.support.v7.widget.RecyclerView
+                    android:layout_width="0dp"
+                    android:layout_height="20dp"
+                    app:layout_constraintTop_toBottomOf="@+id/zonesDropDown" android:id="@+id/zonesRecyclerView"
+                    app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="8dp"
+                    app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="8dp"/>
+            <Button
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:drawableEnd="@drawable/ic_dropdown_arrow"
+                    android:text="@string/nuage_vports"
+                    android:textColor="@color/colorDropDownText"
+                    android:textAlignment="textStart"
+                    android:textSize="18sp"
+                    android:id="@+id/vportsDropDown"
+                    android:backgroundTint="@color/colorDropDownBox"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/zonesRecyclerView"
+            />
+            <android.support.v7.widget.RecyclerView
+                    android:layout_width="0dp"
+                    android:layout_height="20dp"
+                    app:layout_constraintTop_toBottomOf="@+id/vportsDropDown" app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_marginEnd="8dp" app:layout_constraintStart_toStartOf="parent"
+                    android:layout_marginStart="8dp" android:id="@+id/vportsRecyclerView"/>
+            <android.support.constraint.ConstraintLayout
+                    android:layout_width="331dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    app:layout_constraintTop_toBottomOf="@+id/vportsRecyclerView"
+                    app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="8dp"
+                    app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="8dp"
+            >
+
+                <Spinner
+                        android:layout_width="103dp"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/spinner"
+                        app:layout_constraintStart_toEndOf="@+id/textView" android:layout_marginStart="8dp"
+                        app:layout_constraintTop_toTopOf="@+id/textView"
+                        app:layout_constraintBottom_toBottomOf="@+id/textView"
+                />
+                <TextView
+                        android:text="@string/severity"
+                        android:textSize="16sp"
+                        android:textColor="@color/colorCommonText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/textView" android:layout_marginTop="8dp"
+                        app:layout_constraintTop_toTopOf="parent" android:layout_marginStart="8dp"
+                        app:layout_constraintStart_toStartOf="parent" android:layout_marginBottom="8dp"
+                        app:layout_constraintBottom_toBottomOf="parent"/>
+            </android.support.constraint.ConstraintLayout>
+
+        </android.support.constraint.ConstraintLayout>
+
     </android.support.constraint.ConstraintLayout>
+
 
     <android.support.design.widget.NavigationView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             app:menu="@layout/navigation_menu"
             android:layout_gravity="start"
-            android:backgroundTint="@color/colorMenuTheme"/>
+            android:id="@+id/navigationView"
+            android:background="@color/colorMenuTheme"
+            app:itemTextColor="@color/colorMenuText"
+            app:itemIconTint="@color/colorMenuText"
+    />
 
 </android.support.v4.widget.DrawerLayout>

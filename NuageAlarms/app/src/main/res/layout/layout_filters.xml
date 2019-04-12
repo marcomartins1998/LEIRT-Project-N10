@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                                             xmlns:app="http://schemas.android.com/apk/res-auto"
+                                             android:layout_width="match_parent"
+                                             android:layout_height="match_parent">
+
+    <Button
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:drawableEnd="@drawable/ic_dropdown_arrow"
+            android:text="@string/nuage_enterprises"
+            android:textColor="@color/colorDropDownText"
+            android:textAlignment="textStart"
+            android:textSize="18sp"
+            android:id="@+id/enterprisesDropDown"
+            android:backgroundTint="@color/colorDropDownBox"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+    <Button
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:drawableEnd="@drawable/ic_dropdown_arrow"
+            android:text="@string/nuage_domains"
+            android:textColor="@color/colorDropDownText"
+            android:textAlignment="textStart"
+            android:textSize="18sp"
+            android:id="@+id/domainsDropDown"
+            android:backgroundTint="@color/colorDropDownBox"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/enterprisesDropDown"/>
+
+    <Button
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:drawableEnd="@drawable/ic_dropdown_arrow"
+            android:text="@string/nuage_zones"
+            android:textColor="@color/colorDropDownText"
+            android:textAlignment="textStart"
+            android:textSize="18sp"
+            android:id="@+id/zonesDropDown"
+            android:backgroundTint="@color/colorDropDownBox"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/domainsDropDown"/>
+
+    <Button
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:drawableEnd="@drawable/ic_dropdown_arrow"
+            android:text="@string/nuage_vports"
+            android:textColor="@color/colorDropDownText"
+            android:textAlignment="textStart"
+            android:textSize="18sp"
+            android:id="@+id/vportsDropDown"
+            android:backgroundTint="@color/colorDropDownBox"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/zonesDropDown"/>
+
+</android.support.constraint.ConstraintLayout>
