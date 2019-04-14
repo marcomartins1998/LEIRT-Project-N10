@@ -10,7 +10,7 @@ import com.fasterxml.jackson.annotation.JsonProperty
 data class DomainDto(
     @JsonProperty("ID") val id: String,
     @JsonProperty("parentID") val eid: String,
-    val name: String
+    @JsonProperty("name") val name: String
 ) {
     fun toModel() = Domain(id = id, parentid = eid, name = name, childList = arrayListOf())
 }

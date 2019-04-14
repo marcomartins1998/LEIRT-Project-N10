@@ -10,7 +10,7 @@ import com.fasterxml.jackson.annotation.JsonProperty
 data class VPortDto(
     @JsonProperty("ID") val id: String,
     @JsonProperty("zoneID") val zid: String,
-    val name: String
+    @JsonProperty("name") val name: String
 ) {
     fun toModel() = VPort(id = id, parentid = zid, name = name)
 }

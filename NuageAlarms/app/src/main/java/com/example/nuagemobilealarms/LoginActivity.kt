@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.util.Base64
+import android.util.Log
 import android.widget.Button
 import android.widget.CheckBox
 import android.widget.EditText
@@ -14,6 +15,7 @@ import com.example.nuagemobilealarms.helper.AndroidHelper
 import com.example.nuagemobilealarms.helper.FileHelper
 
 class LoginActivity: AppCompatActivity() {
+    val TAG = "LoginActivity"
     lateinit var vs: VolleySingleton
     lateinit var vh: VolleyHelper
     lateinit var fh: FileHelper
@@ -25,12 +27,13 @@ class LoginActivity: AppCompatActivity() {
     lateinit var enterbutton: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_login)
+        Log.d(TAG, "onCreate: started")
+
         vs = VolleySingleton.getInstance(this.applicationContext)
         vh = VolleyHelper(this, intent, vs)
         fh = FileHelper(this.applicationContext)
-
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_login)
 
         companyname = findViewById(R.id.companyNameInput)
         username = findViewById(R.id.userNameInput)
@@ -51,7 +54,7 @@ class LoginActivity: AppCompatActivity() {
                 //intent.putExtra("initauth", Base64.encodeToString("${username.text.trim()}:${password.text!!.trim()}".toByteArray(), Base64.DEFAULT))
                 extras = intent.extras!!
 
-                vh.NuageAuthRequest(url){
+                vh.NuageAuthRequest(url, TAG) {
                     val apiKey = it?.getJSONObject(0)?.getString("APIKey")
                     val apiKeyExpiry = it?.getJSONObject(0)?.getLong("APIKeyExpiry")
                     val intent = Intent(this@LoginActivity, HomeActivity::class.java)
@@ -80,7 +83,8 @@ class LoginActivity: AppCompatActivity() {
 
     override fun onStop() {
         super.onStop()
-        vs.requestQueue.cancelAll("cancelAll")
+        Log.d(TAG, "onStop: started")
+        vs.requestQueue.cancelAll(TAG)
     }
 
 }

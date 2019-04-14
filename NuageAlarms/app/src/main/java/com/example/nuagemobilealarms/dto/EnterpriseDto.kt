@@ -9,7 +9,7 @@ import com.fasterxml.jackson.annotation.JsonProperty
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
 data class EnterpriseDto(
     @JsonProperty("ID") val id: String,
-    val name: String
+    @JsonProperty("name") val name: String
 ) {
     fun toModel() = Enterprise(id = id, name = name, childList = arrayListOf())
 }

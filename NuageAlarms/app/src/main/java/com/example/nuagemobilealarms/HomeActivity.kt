@@ -3,18 +3,21 @@ package com.example.nuagemobilealarms
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.util.Log
 import android.widget.Button
 import android.widget.TextView
 import com.example.nuagemobilealarms.connect.VolleyHelper
 import com.example.nuagemobilealarms.connect.VolleySingleton
 
 class HomeActivity : AppCompatActivity() {
+    val TAG = "HomeActivity"
     lateinit var vs: VolleySingleton
     lateinit var vh: VolleyHelper
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
+        Log.d(TAG, "onCreate: started")
 
         vs = VolleySingleton.getInstance(this.applicationContext)
         vh = VolleyHelper(this, intent, vs)
@@ -44,7 +47,8 @@ class HomeActivity : AppCompatActivity() {
 
     override fun onStop() {
         super.onStop()
-        vs.requestQueue.cancelAll("cancelAll")
+        Log.d(TAG, "onStop: started")
+        vs.requestQueue.cancelAll(TAG)
     }
 
 }

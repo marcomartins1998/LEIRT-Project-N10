@@ -3,13 +3,17 @@ package com.example.nuagemobilealarms.connect
 import android.content.Context
 import android.content.Intent
 import android.util.Base64
+import android.util.Log
 import com.android.volley.Request
 import com.android.volley.Response
 import com.android.volley.toolbox.JsonArrayRequest
 import com.android.volley.toolbox.JsonObjectRequest
-import com.example.nuagemobilealarms.dto.DomainDto
-import com.example.nuagemobilealarms.helper.AndroidHelper
-import com.fasterxml.jackson.databind.ObjectMapper
+import com.example.nuagemobilealarms.helper.JsonHelper
+import com.example.nuagemobilealarms.model.Domain
+import com.example.nuagemobilealarms.model.Enterprise
+import com.example.nuagemobilealarms.model.VPort
+import com.example.nuagemobilealarms.model.Zone
+import java8.util.concurrent.CompletableFuture
 import org.json.JSONArray
 import org.json.JSONObject
 import java.util.*
@@ -18,7 +22,7 @@ import kotlin.text.Charsets.UTF_8
 
 //TODO try to clean repeated code
 class VolleyHelper(val context: Context, val intent: Intent, val vs: VolleySingleton){
-    val TAG = "cancelAll"
+    val TAG = "VolleyHelper"
 
     fun JSONArrayRequest(url: String, method: Int, headers: HashMap<String,String>, requestBody: JSONObject?, errorMsg: String,
                          rspAction: (JSONArray?) -> Unit): JsonArrayRequest{
@@ -28,7 +32,8 @@ class VolleyHelper(val context: Context, val intent: Intent, val vs: VolleySingl
             null,
             Response.Listener(rspAction),
             Response.ErrorListener {
-                AndroidHelper.toastMessage(context, errorMsg)
+                rspAction(JSONArray())
+                Log.e(TAG, "${it.message}\n$errorMsg")
             }
         ){
             override fun getHeaders(): MutableMap<String, String> = headers
@@ -45,8 +50,8 @@ class VolleyHelper(val context: Context, val intent: Intent, val vs: VolleySingl
             null,
             Response.Listener(rspAction),
             Response.ErrorListener {
-                println(it)
-                AndroidHelper.toastMessage(context, errorMsg)
+                rspAction(JSONObject())
+                Log.e(TAG, "${it.message}\n$errorMsg")
             }
         ){
             override fun getHeaders(): MutableMap<String, String> = headers
@@ -54,15 +59,15 @@ class VolleyHelper(val context: Context, val intent: Intent, val vs: VolleySingl
         }
     }
 
-    fun NuageVersionRequest(url: String, rspAction: (JSONObject?) -> Unit){
+    fun NuageVersionRequest(url: String, tag: String, rspAction: (JSONObject?) -> Unit) {
         val headers = HashMap<String, String>()
         headers["Content-type"] = "application/json"
         val jsonArr = JSONObjectRequest(url, Request.Method.GET, headers, null, "Invalid parameters/Try again later.", rspAction)
-        jsonArr.tag = TAG
+        jsonArr.tag = tag
         vs.addToRequestQueue(jsonArr)
     }
 
-    fun NuageAuthRequest(url: String, rspAction: (JSONArray?) -> Unit){
+    fun NuageAuthRequest(url: String, tag: String, rspAction: (JSONArray?) -> Unit) {
         val extras = intent.extras!!
         val headers = HashMap<String, String>()
         headers["X-Nuage-Organization"] = extras.getString("companyname")
@@ -73,15 +78,16 @@ class VolleyHelper(val context: Context, val intent: Intent, val vs: VolleySingl
             Base64.DEFAULT
         )
         val jsonArr = JSONArrayRequest("$url/me", Request.Method.GET, headers, null, "Login fail, please try again.", rspAction)
-        jsonArr.tag = TAG
+        jsonArr.tag = tag
         vs.addToRequestQueue(jsonArr)
     }
 
     //TODO testar este método
-    fun NuageAuthIfExpired(url: String, action: () -> Unit){
+    @Synchronized
+    fun NuageAuthIfExpired(url: String, tag: String, action: () -> Unit) {
         val extras = intent.extras!!
         if(Calendar.getInstance().time.time > extras.getLong("authexpiry")){
-            NuageAuthRequest(url){
+            NuageAuthRequest(url, tag) {
                 val apiKey = it?.getJSONObject(0)?.getString("APIKey")
                 val apiKeyExpiry = it?.getJSONObject(0)?.getLong("APIKeyExpiry")
                 intent.putExtra("auth", "Basic "+ Base64.encodeToString("${extras.getString("username")!!.trim()}:$apiKey".toByteArray(), 0))
@@ -89,34 +95,104 @@ class VolleyHelper(val context: Context, val intent: Intent, val vs: VolleySingl
                 action()
             }
         } else action()
-
     }
 
-    fun NuageGetDomains(url: String, rspAction: (List<DomainDto>) -> Unit) {
-        NuageAuthIfExpired(url){
-            val extras = intent.extras!!
-            val headers = HashMap<String, String>()
-            headers["X-Nuage-Organization"] = extras.getString("companyname")
-            headers["Content-type"] = "application/json"
-            headers["Authorization"] = extras.getString("auth")
+    fun NuageGetEnterprises(tag: String): CompletableFuture<List<Enterprise>> {
+        val cp: CompletableFuture<List<Enterprise>> = CompletableFuture()
+        val url = intent.extras!!.getString("url")!!
+        Thread(Runnable {
+            NuageAuthIfExpired(url, tag) {
+                val extras = intent.extras!!
+                val headers = HashMap<String, String>()
+                headers["X-Nuage-Organization"] = extras.getString("companyname") ?: ""
+                headers["Content-type"] = "application/json"
+                headers["Authorization"] = extras.getString("auth") ?: ""
 
-            val jsonArr = JSONArrayRequest("$url/domains", Request.Method.GET, headers, null, "Unable to get domains."){
-                val mapper = ObjectMapper()
-                try {
-                    val domainDtoList: List<DomainDto> = mapper.readValue(
-                        it.toString(),
-                        mapper.typeFactory.constructCollectionType(List::class.java, DomainDto::class.java)
-                    )
-                    rspAction(domainDtoList)
-
-                } catch (e: Exception){
-                    AndroidHelper.toastMessage(context, e.message)
-                    println(e.message)
+                val jsonArr = JSONArrayRequest(
+                    "$url/enterprises",
+                    Request.Method.GET,
+                    headers,
+                    null,
+                    "Unable to get enterprises."
+                ) {
+                    JsonHelper.convertToEnterpriseList(context, it, cp)
                 }
+                jsonArr.tag = tag
+                vs.addToRequestQueue(jsonArr)
             }
-            jsonArr.tag = TAG
-            vs.addToRequestQueue(jsonArr)
-        }
+        }).start()
+        return cp
+    }
+
+    fun NuageGetDomains(tag: String): CompletableFuture<List<Domain>> {
+        val cp: CompletableFuture<List<Domain>> = CompletableFuture()
+        val url = intent.extras!!.getString("url")!!
+        Thread(Runnable {
+            NuageAuthIfExpired(url, tag) {
+                val extras = intent.extras!!
+                val headers = HashMap<String, String>()
+                headers["X-Nuage-Organization"] = extras.getString("companyname") ?: ""
+                headers["Content-type"] = "application/json"
+                headers["Authorization"] = extras.getString("auth") ?: ""
+
+                val jsonArr =
+                    JSONArrayRequest("$url/domains", Request.Method.GET, headers, null, "Unable to get domains.") {
+                        JsonHelper.convertToDomainList(context, it, cp)
+                }
+                jsonArr.tag = tag
+                vs.addToRequestQueue(jsonArr)
+            }
+        }).start()
+        return cp
+    }
+
+    fun NuageGetZones(tag: String): CompletableFuture<List<Zone>> {
+        val cp: CompletableFuture<List<Zone>> = CompletableFuture()
+        val url = intent.extras!!.getString("url")!!
+        Thread(Runnable {
+            NuageAuthIfExpired(url, tag) {
+                val extras = intent.extras!!
+                val headers = HashMap<String, String>()
+                headers["X-Nuage-Organization"] = extras.getString("companyname") ?: ""
+                headers["Content-type"] = "application/json"
+                headers["Authorization"] = extras.getString("auth") ?: ""
+
+                val jsonArr =
+                    JSONArrayRequest("$url/zones", Request.Method.GET, headers, null, "Unable to get zones.") {
+                        JsonHelper.convertToZoneList(context, it, cp)
+                    }
+                jsonArr.tag = tag
+                vs.addToRequestQueue(jsonArr)
+            }
+        }).start()
+        return cp
+    }
+
+    fun NuageGetVPorts(tag: String, domainid: String): CompletableFuture<List<VPort>> {
+        val cp: CompletableFuture<List<VPort>> = CompletableFuture()
+        val url = intent.extras!!.getString("url")!!
+        Thread(Runnable {
+            NuageAuthIfExpired(url, tag) {
+                val extras = intent.extras!!
+                val headers = HashMap<String, String>()
+                headers["X-Nuage-Organization"] = extras.getString("companyname") ?: ""
+                headers["Content-type"] = "application/json"
+                headers["Authorization"] = extras.getString("auth") ?: ""
+
+                val jsonArr = JSONArrayRequest(
+                    "$url/domains/$domainid/vports",
+                    Request.Method.GET,
+                    headers,
+                    null,
+                    "Unable to get vports."
+                ) {
+                    JsonHelper.convertToVPortList(context, it, cp)
+                }
+                jsonArr.tag = tag
+                vs.addToRequestQueue(jsonArr)
+            }
+        }).start()
+        return cp
     }
 
 }

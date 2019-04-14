@@ -10,7 +10,7 @@ import com.fasterxml.jackson.annotation.JsonProperty
 data class ZoneDto(
     @JsonProperty("ID") val id: String,
     @JsonProperty("parentID") val did: String,
-    val name: String
+    @JsonProperty("name") val name: String
 ) {
     fun toModel() = Zone(id = id, parentid = did, name = name, childList = arrayListOf())
 }

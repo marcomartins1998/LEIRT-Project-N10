@@ -20,12 +20,13 @@ class FilterRecyclerViewAdapter(
 ) : RecyclerView.Adapter<FilterRecyclerViewAdapter.ViewHolder>() {
     private val TAG = "FiltersRecViewAdapter"
     private val countaux = count + 1
-    private val recViewAdapter = FilterRecyclerViewAdapter(context, entityItemList, recyclerViewList, countaux, limit)
+    private lateinit var childRecViewAdapter: FilterRecyclerViewAdapter
 
     init {
         if (count < limit - 1) {
-            recyclerViewList[count].adapter = recViewAdapter
-            recyclerViewList[count].layoutManager = LinearLayoutManager(context)
+            childRecViewAdapter = FilterRecyclerViewAdapter(context, entityItemList, recyclerViewList, countaux, limit)
+            recyclerViewList[countaux].adapter = childRecViewAdapter
+            recyclerViewList[countaux].layoutManager = LinearLayoutManager(context)
         }
     }
 
@@ -42,15 +43,36 @@ class FilterRecyclerViewAdapter(
         holder.entitySwitch.isChecked = entityItemList[count][position].checked
         holder.entitySwitch.setOnClickListener {
             entityItemList[count][position].checked = holder.entitySwitch.isChecked
-            if (count < limit - 1) {
+            when (holder.entitySwitch.isChecked) {
+                true -> propagateAdd(entityItemList[count][position].childList)
+                false -> propagateRemove(entityItemList[count][position].childList)
+            }
+            /*if (count < limit - 1) {
                 if (holder.entitySwitch.isChecked) {
                     entityItemList[count][position].propagateChecked()
                     entityItemList[countaux].addAll(entityItemList[count][position].childList!!)
                 } else entityItemList[countaux].removeAll(entityItemList[count][position].childList!!)
-                //TODO maybe change to notifyItemRangeChanged for optimization later on
-                recViewAdapter.notifyDataSetChanged()
-            }
 
+                childRecViewAdapter.notifyDataSetChanged()
+            }*/
+
+        }
+    }
+
+    //TODO maybe change to notifyItemRangeChanged for optimization later on
+    fun propagateAdd(ls: List<Entity>?) {
+        if (count < limit - 1) {
+            entityItemList[countaux].addAll(ls!!)
+            childRecViewAdapter.propagateAdd(ls.flatMap { it.childList!! })
+            childRecViewAdapter.notifyDataSetChanged()
+        }
+    }
+
+    fun propagateRemove(ls: List<Entity>?) {
+        if (count < limit - 1) {
+            entityItemList[countaux].removeAll(ls!!)
+            childRecViewAdapter.propagateRemove(ls.flatMap { it.childList!! })
+            childRecViewAdapter.notifyDataSetChanged()
         }
     }
 
