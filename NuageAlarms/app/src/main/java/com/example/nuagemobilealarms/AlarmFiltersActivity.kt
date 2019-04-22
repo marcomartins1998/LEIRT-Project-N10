@@ -14,9 +14,11 @@ import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.ImageButton
 import android.widget.Spinner
+import com.example.nuagemobilealarms.adapter.AlarmRecyclerViewAdapter
 import com.example.nuagemobilealarms.adapter.EntityGroupRecViewAdapter
 import com.example.nuagemobilealarms.connect.VolleyHelper
 import com.example.nuagemobilealarms.connect.VolleySingleton
+import com.example.nuagemobilealarms.model.Alarm
 import com.example.nuagemobilealarms.model.Entity
 import java8.util.concurrent.CompletableFuture
 
@@ -25,11 +27,12 @@ class AlarmFiltersActivity : AppCompatActivity() {
     lateinit var vs: VolleySingleton
     lateinit var vh: VolleyHelper
 
-    val filterItemList = ArrayList<Pair<String, String>>()
     val enterpriseList: ArrayList<Entity> = arrayListOf()
     val domainList: ArrayList<Entity> = arrayListOf()
     val zoneList: ArrayList<Entity> = arrayListOf()
     val vportList: ArrayList<Entity> = arrayListOf()
+
+    val alarmList: ArrayList<Alarm> = arrayListOf()
 
     // FRV -> FilterRecyclerView
     //lateinit var FRV: RecyclerView
@@ -53,6 +56,9 @@ class AlarmFiltersActivity : AppCompatActivity() {
     lateinit var vportRecView: RecyclerView
     lateinit var vportRecAdapter: EntityGroupRecViewAdapter
 
+    lateinit var searchButton: Button
+    lateinit var alarmRecView: RecyclerView
+    lateinit var alarmRecAdapter: AlarmRecyclerViewAdapter
     lateinit var drawerLayout: DrawerLayout
     lateinit var menuButton: ImageButton
     lateinit var navigationView: NavigationView
@@ -79,16 +85,30 @@ class AlarmFiltersActivity : AppCompatActivity() {
         zoneDropDown = findViewById(R.id.zonesDropDown)
         vportDropDown = findViewById(R.id.vportsDropDown)
         filtersSeveritySpinner = findViewById(R.id.severitySpinner)
+        searchButton = findViewById(R.id.searchButton)
 
         enterpriseRecView = findViewById(R.id.enterprisesRecyclerView)
         domainRecView = findViewById(R.id.domainsRecyclerView)
         zoneRecView = findViewById(R.id.zonesRecyclerView)
         vportRecView = findViewById(R.id.vportsRecyclerView)
+        alarmRecView = findViewById(R.id.alarmRecyclerView)
 
         navigationView.setNavigationItemSelectedListener {
             //it.isChecked = true
             drawerLayout.closeDrawer(navigationView)
             true
+        }
+
+        searchButton.setOnClickListener {
+            Thread(Runnable {
+                enterpriseList.map { vh.NuageGetAllEnterpriseAlarms(TAG, it.id) }.reduce { cf1, cf2 ->
+                    cf1.thenCombine(cf2) { l1, l2 -> l1 + l2 }
+                }.thenApply {
+                    alarmList.clear()
+                    alarmList.addAll(it)
+                    alarmRecAdapter.notifyDataSetChanged()
+                }
+            }).start()
         }
 
         menuButton.setOnClickListener { drawerLayout.openDrawer(navigationView) }
@@ -141,6 +161,7 @@ class AlarmFiltersActivity : AppCompatActivity() {
         //initFRV()
         //initERV()
         initEntitiesRecView()
+        initAlarmRecView()
     }
 
     fun initEntitiesRecView() {
@@ -162,6 +183,12 @@ class AlarmFiltersActivity : AppCompatActivity() {
         enterpriseRecAdapter = EntityGroupRecViewAdapter(this, enterpriseList, domainList, domainRecAdapter)
         enterpriseRecView.layoutManager = LinearLayoutManager(this.applicationContext)
         enterpriseRecView.adapter = enterpriseRecAdapter
+    }
+
+    fun initAlarmRecView() {
+        alarmRecAdapter = AlarmRecyclerViewAdapter(this, alarmList, enterpriseList + domainList + zoneList + vportList)
+        alarmRecView.layoutManager = LinearLayoutManager(this.applicationContext)
+        alarmRecView.adapter = alarmRecAdapter
     }
 
     fun setVisibilityOnAction(view: View) {

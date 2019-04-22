@@ -37,17 +37,6 @@
                     app:layout_constraintTop_toTopOf="parent" android:backgroundTint="@color/colorDropDownBox"
                     app:layout_constraintHorizontal_bias="0.32"/>
 
-            <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/allEntitiesSubTitle" android:textSize="18sp"
-                    android:text="@string/existing_alarms" android:textColor="@color/colorCommonText"
-                    android:layout_marginStart="8dp"
-                    app:layout_constraintStart_toStartOf="parent" android:layout_marginEnd="8dp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    android:layout_marginTop="8dp" app:layout_constraintTop_toBottomOf="@+id/filtersConstraintLayout"
-                    tools:layout_editor_absoluteY="8dp"/>
-
             <android.support.constraint.ConstraintLayout
                     android:layout_width="match_parent"
                     app:layout_constraintTop_toBottomOf="@+id/filterDropDown"
@@ -170,6 +159,33 @@
                 </android.support.constraint.ConstraintLayout>
 
             </android.support.constraint.ConstraintLayout>
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/allAlarms" android:textSize="18sp"
+                    android:text="@string/existing_alarms" android:textColor="@color/colorCommonText"
+                    android:layout_marginStart="8dp"
+                    app:layout_constraintStart_toStartOf="parent" android:layout_marginEnd="8dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_marginTop="8dp" app:layout_constraintTop_toBottomOf="@+id/filtersConstraintLayout"
+            />
+            <android.support.v7.widget.RecyclerView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    app:layout_constraintTop_toBottomOf="@+id/allAlarms" app:layout_constraintStart_toStartOf="parent"
+                    android:layout_marginStart="8dp" app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_marginEnd="8dp" android:id="@+id/alarmRecyclerView"/>
+            <Button
+                    android:text="@string/button_search"
+                    android:textSize="14sp"
+                    android:layout_width="81dp"
+                    android:layout_height="38dp"
+                    android:id="@+id/searchButton" android:layout_marginTop="8dp"
+                    app:layout_constraintTop_toBottomOf="@+id/alarmRecyclerView" android:background="@color/colorButton"
+                    android:layout_marginStart="8dp" app:layout_constraintStart_toStartOf="parent"
+                    android:layout_marginEnd="8dp" app:layout_constraintEnd_toEndOf="parent"
+                    style="@style/Widget.AppCompat.Button.Colored"/>
 
         </android.support.constraint.ConstraintLayout>
     </ScrollView>

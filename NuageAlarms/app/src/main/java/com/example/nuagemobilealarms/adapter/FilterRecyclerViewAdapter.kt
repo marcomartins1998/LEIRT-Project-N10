@@ -47,15 +47,6 @@ class FilterRecyclerViewAdapter(
                 true -> propagateAdd(entityItemList[count][position].childList)
                 false -> propagateRemove(entityItemList[count][position].childList)
             }
-            /*if (count < limit - 1) {
-                if (holder.entitySwitch.isChecked) {
-                    entityItemList[count][position].propagateChecked()
-                    entityItemList[countaux].addAll(entityItemList[count][position].childList!!)
-                } else entityItemList[countaux].removeAll(entityItemList[count][position].childList!!)
-
-                childRecViewAdapter.notifyDataSetChanged()
-            }*/
-
         }
     }
 

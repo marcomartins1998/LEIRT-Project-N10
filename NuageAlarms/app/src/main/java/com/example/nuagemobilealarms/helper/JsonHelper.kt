@@ -2,14 +2,8 @@ package com.example.nuagemobilealarms.helper
 
 import android.content.Context
 import android.util.Log
-import com.example.nuagemobilealarms.dto.DomainDto
-import com.example.nuagemobilealarms.dto.EnterpriseDto
-import com.example.nuagemobilealarms.dto.VPortDto
-import com.example.nuagemobilealarms.dto.ZoneDto
-import com.example.nuagemobilealarms.model.Domain
-import com.example.nuagemobilealarms.model.Enterprise
-import com.example.nuagemobilealarms.model.VPort
-import com.example.nuagemobilealarms.model.Zone
+import com.example.nuagemobilealarms.dto.*
+import com.example.nuagemobilealarms.model.*
 import com.fasterxml.jackson.databind.ObjectMapper
 import java8.util.concurrent.CompletableFuture
 import org.json.JSONArray
@@ -79,6 +73,21 @@ class JsonHelper {
                     mapper.typeFactory.constructCollectionType(List::class.java, VPortDto::class.java)
                 )
                 cp.complete(vportDtoList.map(VPortDto::toModel))
+                Log.d(TAG, cp.toString())
+            } catch (e: Exception) {
+                cp.complete(arrayListOf())
+                Log.e(TAG, e.message)
+            }
+        }
+
+        fun convertToAlarmList(context: Context, jsonarr: JSONArray?, cp: CompletableFuture<List<Alarm>>) {
+            val mapper = ObjectMapper()
+            try {
+                val alarmDtoList: List<AlarmDto> = mapper.readValue(
+                    jsonarr.toString(),
+                    mapper.typeFactory.constructCollectionType(List::class.java, AlarmDto::class.java)
+                )
+                cp.complete(alarmDtoList.map(AlarmDto::toModel))
                 Log.d(TAG, cp.toString())
             } catch (e: Exception) {
                 cp.complete(arrayListOf())

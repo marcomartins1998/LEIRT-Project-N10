@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                                             xmlns:app="http://schemas.android.com/apk/res-auto"
+                                             android:layout_width="match_parent"
+                                             android:layout_height="wrap_content">
+
+    <ImageView
+            android:layout_width="54dp"
+            android:layout_height="48dp" app:srcCompat="@drawable/ic_warning"
+            android:id="@+id/warningImage" android:layout_marginTop="4dp"
+            app:layout_constraintTop_toTopOf="parent" app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="8dp"/>
+    <TextView
+            android:text="@string/alarm_origin"
+            android:textSize="14sp"
+            android:textColor="@color/colorCommonText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/originTitleTextView" app:layout_constraintStart_toEndOf="@+id/warningImage"
+            android:layout_marginStart="4dp" android:layout_marginTop="12dp" app:layout_constraintTop_toTopOf="parent"/>
+    <TextView
+            android:text="@string/alarm_reason"
+            android:textSize="14sp"
+            android:textColor="@color/colorCommonText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/reasonTitleTextView" app:layout_constraintStart_toEndOf="@+id/warningImage"
+            android:layout_marginStart="4dp"
+            app:layout_constraintTop_toBottomOf="@+id/originTitleTextView" android:layout_marginBottom="8dp"
+            app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintVertical_bias="0.0"
+            android:layout_marginTop="8dp"/>
+    <TextView
+            android:text="TextView"
+            android:textSize="12sp"
+            android:layout_width="54dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/severityTextView"
+            app:layout_constraintTop_toBottomOf="@+id/warningImage"
+            app:layout_constraintStart_toStartOf="@+id/warningImage"
+            app:layout_constraintEnd_toEndOf="@+id/warningImage"
+            android:layout_marginBottom="4dp" app:layout_constraintBottom_toBottomOf="parent"/>
+    <TextView
+            android:text="TextView"
+            android:textColor="@color/colorCommonText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/originTextView" app:layout_constraintStart_toEndOf="@+id/originTitleTextView"
+            android:layout_marginStart="4dp"
+            app:layout_constraintTop_toTopOf="@+id/originTitleTextView"/>
+    <TextView
+            android:text="TextView"
+            android:textColor="@color/colorCommonText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/reasonTextView" app:layout_constraintStart_toEndOf="@+id/reasonTitleTextView"
+            android:layout_marginStart="4dp" android:layout_marginTop="8dp"
+            app:layout_constraintTop_toBottomOf="@+id/originTextView" android:layout_marginBottom="8dp"
+            app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintVertical_bias="0.0"/>
+</android.support.constraint.ConstraintLayout>

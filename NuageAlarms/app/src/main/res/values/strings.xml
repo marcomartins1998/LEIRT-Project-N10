@@ -34,6 +34,9 @@
     </string-array>
 
     <string name="existing_alarms">Existing Alarms:</string>
+    <string name="alarm_origin">Origin:</string>
+    <string name="alarm_reason">Reason:</string>
+    <string name="button_search">Search</string>
     <string name="existing_entities">All existing entities:</string>
     <string name="button_send">Send</string>
     <string name="button_add">Add</string>
