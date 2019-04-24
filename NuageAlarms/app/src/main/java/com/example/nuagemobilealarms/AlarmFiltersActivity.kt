@@ -31,15 +31,8 @@ class AlarmFiltersActivity : AppCompatActivity() {
     val domainList: ArrayList<Entity> = arrayListOf()
     val zoneList: ArrayList<Entity> = arrayListOf()
     val vportList: ArrayList<Entity> = arrayListOf()
-
     val alarmList: ArrayList<Alarm> = arrayListOf()
 
-    // FRV -> FilterRecyclerView
-    //lateinit var FRV: RecyclerView
-    //lateinit var FRVAdapter: FilterRecyclerViewAdapter
-    // ERV -> EntityRecyclerView
-    //lateinit var ERV: RecyclerView
-    //lateinit var ERVAdapter: EntityRecyclerViewAdapter
     lateinit var enterpriseDropDown: Button
     lateinit var enterpriseRecView: RecyclerView
     lateinit var enterpriseRecAdapter: EntityGroupRecViewAdapter
@@ -158,16 +151,11 @@ class AlarmFiltersActivity : AppCompatActivity() {
         zoneList.addAll(ArrayList(domainList.flatMap{it.childList!!}))
         vportList.addAll(ArrayList(zoneList.flatMap{it.childList!!}))*/
 
-        //initFRV()
-        //initERV()
         initEntitiesRecView()
         initAlarmRecView()
     }
 
     fun initEntitiesRecView() {
-        /*enterpriseRecAdapter = FilterRecyclerViewAdapter(this, arrayListOf(enterpriseList, domainList, zoneList, vportList), arrayListOf(enterpriseRecView, domainRecView, zoneRecView, vportRecView), 0, 4)
-        enterpriseRecView.adapter = enterpriseRecAdapter
-        enterpriseRecView.layoutManager = LinearLayoutManager(this)*/
         vportRecAdapter = EntityGroupRecViewAdapter(this, vportList)
         vportRecView.layoutManager = LinearLayoutManager(this.applicationContext)
         vportRecView.adapter = vportRecAdapter
@@ -196,45 +184,6 @@ class AlarmFiltersActivity : AppCompatActivity() {
             View.VISIBLE -> view.visibility = View.GONE
             View.GONE -> view.visibility = View.VISIBLE
         }
-    }
-
-    fun FRVinsertItem(entity: String, filter: String){
-        /*if(!filterItemList.contains(Pair(entity,filter)) && filter != ""){
-            filterItemList.add(Pair(entity,filter))
-            FRVAdapter.notifyItemChanged(filterItemList.size-1)
-        }*/
-    }
-
-    /*fun FRVremoveItem(position: Int, entity: String, filter: String){
-        entityList.removeAt(position)
-        filterList.removeAt(position)
-        FRVAdapter.notifyItemRemoved(position)
-    }*/
-
-    fun initFRV() {
-        /*Log.d(TAG, "initFilterRecyclerView: init filter_recycler_view")
-
-        //Setup dropdown with entity names
-        //val arradapter = ArrayAdapter.createFromResource(this, R.array.all_entities, android.R.layout.simple_spinner_item)
-        //arradapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        //entityDropDown.adapter = arradapter
-
-        FRV = findViewById(R.id.filterRecView)
-        FRVAdapter = FilterRecyclerViewAdapter(this, filterItemList)
-        FRV.adapter = FRVAdapter
-        FRV.layoutManager = LinearLayoutManager(this)*/
-    }
-
-    fun initERV(){
-        /*Log.d(TAG, "initEntityRecyclerView: init entity_recycler_view")
-
-        vh.NuageGetDomains(intent.extras!!.getString("url")!!){
-            entityItemList = it
-            ERV = findViewById(R.id.entityRecView)
-            ERVAdapter = EntityRecyclerViewAdapter(this, entityItemList)
-            ERV.adapter = ERVAdapter
-            ERV.layoutManager = LinearLayoutManager(this)
-        }*/
     }
 
     override fun onStop() {
