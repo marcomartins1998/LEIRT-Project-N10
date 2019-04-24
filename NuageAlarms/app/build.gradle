@@ -30,7 +30,8 @@ dependencies {
     implementation 'com.fasterxml.jackson.core:jackson-core:2.9.8'
     implementation 'com.fasterxml.jackson.core:jackson-annotations:2.9.8'
     implementation 'com.android.volley:volley:1.1.1'
-    implementation group: 'org.apache.activemq', name: 'activemq-client', version: '5.14.3'
+    //implementation group: 'org.apache.activemq', name: 'activemq-client', version: '5.14.3'
+    //implementation group: 'org.jboss.javaee', name: 'jboss-jms-api', version: '1.1.0.GA'
     implementation 'net.sourceforge.streamsupport:streamsupport-cfuture:1.7.0'
 
     implementation fileTree(include: ['*.jar'], dir: 'libs')

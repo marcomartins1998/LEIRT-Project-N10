@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#008577</color>
-    <color name="colorPrimaryDark">#00574B</color>
-    <color name="colorAccent">#CA2061</color>
+    <color name="colorPrimary">#A8031F</color>
+    <color name="colorPrimaryDark">#520000</color>
+    <color name="colorAccent">#B37C1E</color>
     <color name="colorBackground">#FFFFFF</color>
     <color name="colorViewBackground">#CFCECE</color>
     <color name="colorText">#C41414</color>
@@ -10,13 +10,17 @@
     <color name="colorCommonText">#000000</color>
     <color name="colorButton">#464545</color>
 
-    <color name="colorMenuTheme">#F3181717</color>
+    <color name="colorMenuTheme">#181717</color>
     <color name="colorMenuText">#B37C1E</color>
 
     <color name="colorDropDownText">#FFFFFF</color>
     <color name="colorDropDownBox">#000000</color>
-    <color name="colorDropDownItemBackgroud">#3A3737</color>
+    <color name="colorDropDownItemBackground">#3A3737</color>
     <color name="colorDropDownItemText">#C4B9B9</color>
+    <color name="colorFiltersBackground">#9C9999</color>
+
+    <color name="colorMenuItemActivityBackground">#424242</color>
+    <color name="colorHeaderBackground">#202020</color>
 
     <color name="CRITICAL">#4B0000</color>
     <color name="MAJOR">#FA0101</color>

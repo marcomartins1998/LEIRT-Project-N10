@@ -1,7 +1,6 @@
 package com.example.nuagemobilealarms
 
 import android.os.Bundle
-import android.os.Handler
 import android.support.constraint.ConstraintLayout
 import android.support.design.widget.NavigationView
 import android.support.v4.widget.DrawerLayout
@@ -66,7 +65,6 @@ class AlarmFiltersActivity : AppCompatActivity() {
 
         vs = VolleySingleton.getInstance(this.applicationContext)
         vh = VolleyHelper(this, intent, vs)
-        val mainHandler = Handler()
 
         drawerLayout = findViewById(R.id.alarmlistDrawerLayout)
         menuButton = findViewById(R.id.menuButton)
@@ -99,6 +97,11 @@ class AlarmFiltersActivity : AppCompatActivity() {
                 }.thenApply {
                     alarmList.clear()
                     alarmList.addAll(it)
+                    if (filtersSeveritySpinner.selectedItem != "ALL") {
+                        alarmList.removeAll(alarmList.filter { it.severity != filtersSeveritySpinner.selectedItem })
+                        val entityList = enterpriseList + domainList + zoneList + vportList
+                        alarmList.removeAll(alarmList.filter { alarm -> entityList.any { it.id != alarm.parentid } })
+                    }
                     alarmRecAdapter.notifyDataSetChanged()
                 }
             }).start()

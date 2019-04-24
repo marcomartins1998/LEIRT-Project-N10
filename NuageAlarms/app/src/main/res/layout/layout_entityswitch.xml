@@ -12,7 +12,7 @@
             app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="8dp"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            android:background="@color/colorDropDownItemBackgroud"
+            android:background="@color/colorDropDownItemBackground"
             android:textSize="18sp"
             android:textColor="@color/colorDropDownText"
             android:paddingStart="10dp"

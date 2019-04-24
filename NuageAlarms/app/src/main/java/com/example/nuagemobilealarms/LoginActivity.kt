@@ -57,7 +57,7 @@ class LoginActivity: AppCompatActivity() {
                 vh.NuageAuthRequest(url, TAG) {
                     val apiKey = it?.getJSONObject(0)?.getString("APIKey")
                     val apiKeyExpiry = it?.getJSONObject(0)?.getLong("APIKeyExpiry")
-                    val intent = Intent(this@LoginActivity, HomeActivity::class.java)
+                    val intent = Intent(this@LoginActivity, AlarmFiltersActivity::class.java)
                     intent.putExtra("auth", "Basic "+Base64.encodeToString("${username.text.trim()}:$apiKey".toByteArray(), 0))
                     intent.putExtra("authexpiry", apiKeyExpiry)
                     intent.putExtras(extras)
@@ -71,7 +71,6 @@ class LoginActivity: AppCompatActivity() {
                     }
 
                     fh.putProperties(properties)
-
                     startActivity(intent)
                 }
             }
