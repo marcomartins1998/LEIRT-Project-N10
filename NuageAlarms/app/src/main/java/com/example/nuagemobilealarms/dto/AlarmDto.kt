@@ -16,5 +16,5 @@ data class AlarmDto(
     @JsonProperty("severity") val severity: String
 ) {
     fun toModel() =
-        Alarm(id = id, parentid = parentid, parentType = parentType, name = name, reason = reason, severity = severity)
+        Alarm(id = id, parentid = parentid, parenttype = parentType, name = name, reason = reason, severity = severity)
 }

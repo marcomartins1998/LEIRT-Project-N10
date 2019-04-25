@@ -11,16 +11,21 @@
     <color name="colorButton">#464545</color>
 
     <color name="colorMenuTheme">#181717</color>
-    <color name="colorMenuText">#B37C1E</color>
+    <color name="colorMenuText">#fcb32c</color>
 
     <color name="colorDropDownText">#FFFFFF</color>
-    <color name="colorDropDownBox">#000000</color>
+    <color name="colorDropDownFilters">#000000</color>
+    <color name="colorDropDownLabels">#FFFFFF</color>
     <color name="colorDropDownItemBackground">#3A3737</color>
     <color name="colorDropDownItemText">#C4B9B9</color>
     <color name="colorFiltersBackground">#9C9999</color>
 
-    <color name="colorMenuItemActivityBackground">#424242</color>
     <color name="colorHeaderBackground">#202020</color>
+    <color name="colorMenuItemActivityBackground">#2e2e2e</color>
+    <color name="colorSettingsItemText">#fcb32c</color>
+    <color name="colorNuageCommonText">#FFFFFF</color>
+    <color name="colorNuageCommonHintText">#7AFFFFFF</color>
+    <color name="colorNuageMagenta">#9d1b32</color>
 
     <color name="CRITICAL">#4B0000</color>
     <color name="MAJOR">#FA0101</color>

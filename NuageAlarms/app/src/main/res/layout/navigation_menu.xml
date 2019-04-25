@@ -11,10 +11,6 @@
           android:title="@string/nav_alarm_notifications"
           android:icon="@drawable/ic_alarm_notification"/>
 
-    <item android:id="@+id/nav_account"
-          android:title="@string/nav_account"
-          android:icon="@drawable/ic_account"/>
-
     <item android:id="@+id/nav_settings"
           android:title="@string/nav_settings"
           android:icon="@drawable/ic_settings"/>

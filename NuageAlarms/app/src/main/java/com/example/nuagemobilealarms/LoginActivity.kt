@@ -8,11 +8,11 @@ import android.util.Log
 import android.widget.Button
 import android.widget.CheckBox
 import android.widget.EditText
-import com.example.nuagemobilealarms.connect.VolleyHelper
 import com.example.nuagemobilealarms.connect.VolleySingleton
 import com.example.nuagemobilealarms.dto.Properties
 import com.example.nuagemobilealarms.helper.AndroidHelper
 import com.example.nuagemobilealarms.helper.FileHelper
+import com.example.nuagemobilealarms.helper.VolleyHelper
 
 class LoginActivity: AppCompatActivity() {
     val TAG = "LoginActivity"
@@ -54,7 +54,7 @@ class LoginActivity: AppCompatActivity() {
                 //intent.putExtra("initauth", Base64.encodeToString("${username.text.trim()}:${password.text!!.trim()}".toByteArray(), Base64.DEFAULT))
                 extras = intent.extras!!
 
-                vh.NuageAuthRequest(url, TAG) {
+                vh.NuageAuthRequest(url, TAG).thenAccept {
                     val apiKey = it?.getJSONObject(0)?.getString("APIKey")
                     val apiKeyExpiry = it?.getJSONObject(0)?.getLong("APIKeyExpiry")
                     val intent = Intent(this@LoginActivity, AlarmFiltersActivity::class.java)

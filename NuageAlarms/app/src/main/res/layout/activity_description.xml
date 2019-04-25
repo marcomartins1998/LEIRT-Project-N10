@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                                             xmlns:app="http://schemas.android.com/apk/res-auto"
+                                             android:layout_width="match_parent"
+                                             android:layout_height="match_parent">
+
+    <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+        <android.support.constraint.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="153dp" app:srcCompat="@drawable/nuage_h_colour_rgb_large"
+                    android:id="@+id/nuageImage"
+                    app:layout_constraintTop_toBottomOf="@+id/headerTextView"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:layout_marginStart="8dp" app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_marginEnd="8dp"/>
+            <TextView
+                    android:text="@string/app_description_title"
+                    android:textColor="@color/colorNuageMagenta"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/appDescriptionTitle" android:textSize="24sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:layout_marginStart="8dp" android:layout_marginTop="32dp"
+                    app:layout_constraintTop_toBottomOf="@+id/nuageImage"/>
+            <TextView
+                    android:text="@string/header_description"
+                    android:textColor="@color/colorNuageCommonText"
+                    android:paddingStart="5dp"
+                    android:background="@color/colorNuageMagenta"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/headerTextView"
+                    app:layout_constraintTop_toTopOf="parent" app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent" android:textSize="40sp"/>
+            <TextView
+                    android:text="@string/company_description_title"
+                    android:textColor="@color/colorNuageMagenta"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/companyDescriptionTitle" android:textSize="24sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="32dp" app:layout_constraintTop_toBottomOf="@+id/appDescription"/>
+            <TextView
+                    android:text="@string/app_description"
+                    android:textColor="@color/colorCommonText"
+                    android:layout_width="361dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/appDescription" android:layout_marginTop="8dp"
+                    app:layout_constraintTop_toBottomOf="@+id/appDescriptionTitle" android:textSize="18sp"
+                    app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp" app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"/>
+            <TextView
+                    android:text="@string/company_description"
+                    android:textColor="@color/colorCommonText"
+                    android:layout_width="386dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/companyDescription" android:layout_marginTop="8dp"
+                    app:layout_constraintTop_toBottomOf="@+id/companyDescriptionTitle" android:textSize="18sp"
+                    app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp" app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0" app:layout_constraintBottom_toBottomOf="parent"
+                    android:layout_marginBottom="32dp" android:visibility="visible"/>
+        </android.support.constraint.ConstraintLayout>
+    </ScrollView>
+</android.support.constraint.ConstraintLayout>

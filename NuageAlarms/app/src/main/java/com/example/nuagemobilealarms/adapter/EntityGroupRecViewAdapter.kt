@@ -19,7 +19,7 @@ class EntityGroupRecViewAdapter(
     private val TAG = "FiltersRecViewAdapter"
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.layout_entityswitch, parent, false)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.layout_entity_switch, parent, false)
         val holder = ViewHolder(view)
         return holder
     }

@@ -8,11 +8,11 @@ import android.widget.Button
 import android.widget.CheckBox
 import android.widget.EditText
 import com.example.nuagemobilealarms.connect.NukeSSLCerts
-import com.example.nuagemobilealarms.connect.VolleyHelper
 import com.example.nuagemobilealarms.connect.VolleySingleton
 import com.example.nuagemobilealarms.dto.Properties
 import com.example.nuagemobilealarms.helper.AndroidHelper
 import com.example.nuagemobilealarms.helper.FileHelper
+import com.example.nuagemobilealarms.helper.VolleyHelper
 import org.json.JSONArray
 import org.json.JSONObject
 
@@ -51,12 +51,11 @@ class MainActivity : AppCompatActivity(){
 
         enter.setOnClickListener{
             if (servernameipregex.matches(servernameip.text) && portregex.matches(port.text)) {
-                //TODO verificar formato da string de input para evitar problemas de segurança
                 val servername = servernameip.text.trim().split("/")[0]
                 val ip = servernameip.text.trim().split("/")[1]
                 val url = "https://$ip:${port.text}/nuage"
 
-                vh.NuageVersionRequest(url, TAG) {
+                vh.NuageVersionRequest(url, TAG).thenAccept {
                     val currver = it?.getJSONArray("versions")?.findFirst{it.opt("status")=="CURRENT"}
                     val intent = Intent(this@MainActivity, LoginActivity::class.java)
                     intent.putExtra("servername", servername)

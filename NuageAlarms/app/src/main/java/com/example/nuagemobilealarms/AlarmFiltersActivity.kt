@@ -5,6 +5,7 @@ import android.support.constraint.ConstraintLayout
 import android.support.design.widget.NavigationView
 import android.support.v4.widget.DrawerLayout
 import android.support.v7.app.AppCompatActivity
+import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.util.Log
@@ -13,10 +14,12 @@ import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.ImageButton
 import android.widget.Spinner
-import com.example.nuagemobilealarms.adapter.AlarmRecyclerViewAdapter
+import com.example.nuagemobilealarms.adapter.AlarmRecViewAdapter
 import com.example.nuagemobilealarms.adapter.EntityGroupRecViewAdapter
-import com.example.nuagemobilealarms.connect.VolleyHelper
+import com.example.nuagemobilealarms.adapter.LabelRecViewAdapter
 import com.example.nuagemobilealarms.connect.VolleySingleton
+import com.example.nuagemobilealarms.helper.AndroidHelper
+import com.example.nuagemobilealarms.helper.VolleyHelper
 import com.example.nuagemobilealarms.model.Alarm
 import com.example.nuagemobilealarms.model.Entity
 import java8.util.concurrent.CompletableFuture
@@ -25,6 +28,9 @@ class AlarmFiltersActivity : AppCompatActivity() {
     val TAG = "AlarmFiltersActivity"
     lateinit var vs: VolleySingleton
     lateinit var vh: VolleyHelper
+
+    lateinit var warningLabelRecView: RecyclerView
+    lateinit var warningLabelRecViewAdapter: LabelRecViewAdapter
 
     val enterpriseList: ArrayList<Entity> = arrayListOf()
     val domainList: ArrayList<Entity> = arrayListOf()
@@ -50,17 +56,19 @@ class AlarmFiltersActivity : AppCompatActivity() {
 
     lateinit var searchButton: Button
     lateinit var alarmRecView: RecyclerView
-    lateinit var alarmRecAdapter: AlarmRecyclerViewAdapter
+    lateinit var alarmRecAdapter: AlarmRecViewAdapter
     lateinit var drawerLayout: DrawerLayout
     lateinit var menuButton: ImageButton
     lateinit var navigationView: NavigationView
+    lateinit var labelsButton: Button
+    lateinit var labelsConstraintLayout: ConstraintLayout
     lateinit var filtersButton: Button
     lateinit var filtersConstraintLayout: ConstraintLayout
     lateinit var filtersSeveritySpinner: Spinner
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_alarmlist)
+        setContentView(R.layout.activity_alarm_list)
         Log.d(TAG, "onCreate: started")
 
         vs = VolleySingleton.getInstance(this.applicationContext)
@@ -69,6 +77,8 @@ class AlarmFiltersActivity : AppCompatActivity() {
         drawerLayout = findViewById(R.id.alarmlistDrawerLayout)
         menuButton = findViewById(R.id.menuButton)
         navigationView = findViewById(R.id.navigationView)
+        labelsButton = findViewById(R.id.labelDropDown)
+        labelsConstraintLayout = findViewById(R.id.labelsConstraintLayout)
         filtersButton = findViewById(R.id.filterDropDown)
         filtersConstraintLayout = findViewById(R.id.filtersConstraintLayout)
         enterpriseDropDown = findViewById(R.id.enterprisesDropDown)
@@ -78,17 +88,15 @@ class AlarmFiltersActivity : AppCompatActivity() {
         filtersSeveritySpinner = findViewById(R.id.severitySpinner)
         searchButton = findViewById(R.id.searchButton)
 
+        warningLabelRecView = findViewById(R.id.warningLabelRecyclerView)
         enterpriseRecView = findViewById(R.id.enterprisesRecyclerView)
         domainRecView = findViewById(R.id.domainsRecyclerView)
         zoneRecView = findViewById(R.id.zonesRecyclerView)
         vportRecView = findViewById(R.id.vportsRecyclerView)
         alarmRecView = findViewById(R.id.alarmRecyclerView)
 
-        navigationView.setNavigationItemSelectedListener {
-            //it.isChecked = true
-            drawerLayout.closeDrawer(navigationView)
-            true
-        }
+        AndroidHelper.setupDrawer(this, intent, navigationView, drawerLayout)
+        initWarningLabelsRecView()
 
         searchButton.setOnClickListener {
             Thread(Runnable {
@@ -108,6 +116,7 @@ class AlarmFiltersActivity : AppCompatActivity() {
         }
 
         menuButton.setOnClickListener { drawerLayout.openDrawer(navigationView) }
+        labelsButton.setOnClickListener { setVisibilityOnAction(labelsConstraintLayout) }
         filtersButton.setOnClickListener { setVisibilityOnAction(filtersConstraintLayout) }
         enterpriseDropDown.setOnClickListener { setVisibilityOnAction(enterpriseRecView) }
         domainDropDown.setOnClickListener { setVisibilityOnAction(domainRecView) }
@@ -158,6 +167,20 @@ class AlarmFiltersActivity : AppCompatActivity() {
         initAlarmRecView()
     }
 
+    fun initWarningLabelsRecView() {
+        warningLabelRecViewAdapter = LabelRecViewAdapter(
+            this, arrayListOf(
+                "CRITICAL" to R.color.CRITICAL,
+                "MAJOR" to R.color.MAJOR,
+                "MINOR" to R.color.MINOR,
+                "WARNING" to R.color.WARNING,
+                "INFO" to R.color.INFO
+            )
+        )
+        warningLabelRecView.layoutManager = LinearLayoutManager(this.applicationContext)
+        warningLabelRecView.adapter = warningLabelRecViewAdapter
+    }
+
     fun initEntitiesRecView() {
         vportRecAdapter = EntityGroupRecViewAdapter(this, vportList)
         vportRecView.layoutManager = LinearLayoutManager(this.applicationContext)
@@ -177,9 +200,14 @@ class AlarmFiltersActivity : AppCompatActivity() {
     }
 
     fun initAlarmRecView() {
-        alarmRecAdapter = AlarmRecyclerViewAdapter(this, alarmList, enterpriseList + domainList + zoneList + vportList)
-        alarmRecView.layoutManager = LinearLayoutManager(this.applicationContext)
+        alarmRecAdapter = AlarmRecViewAdapter(this, alarmList, enterpriseList + domainList + zoneList + vportList)
+        alarmRecView.layoutManager = LinearLayoutManager(this)
+
+        val divider = DividerItemDecoration(this, DividerItemDecoration.VERTICAL)
+        divider.setDrawable(this.getDrawable(R.drawable.rec_view_divider)!!)
+        alarmRecView.addItemDecoration(divider)
         alarmRecView.adapter = alarmRecAdapter
+        alarmRecAdapter.notifyDataSetChanged()
     }
 
     fun setVisibilityOnAction(view: View) {
