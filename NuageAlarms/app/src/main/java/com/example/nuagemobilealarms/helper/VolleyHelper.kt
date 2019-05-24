@@ -21,6 +21,7 @@ import kotlin.text.Charsets.UTF_8
 class VolleyHelper(val context: Context, val intent: Intent, val vs: VolleySingleton){
     val TAG = "VolleyHelper"
 
+    //TODO tornar rspAction num (JSONArray?, Int) -> Unit para ações de verificação do HTTP status code
     fun JSONArrayRequest(url: String, method: Int, headers: HashMap<String,String>, requestBody: JSONObject?, errorMsg: String,
                          rspAction: (JSONArray?) -> Unit): JsonArrayRequest{
         return object: JsonArrayRequest(
@@ -77,7 +78,6 @@ class VolleyHelper(val context: Context, val intent: Intent, val vs: VolleySingl
         val headers = HashMap<String, String>()
         headers["X-Nuage-Organization"] = extras.getString("companyname")
         headers["Content-type"] = "application/json"
-        //headers["Authorization"] = "Basic "+ extras.getString("initauth")
         headers["Authorization"] = "Basic " + Base64.encodeToString(
             "${extras.getString("username")}:${extras.getString("password")}".toByteArray(),
             Base64.DEFAULT

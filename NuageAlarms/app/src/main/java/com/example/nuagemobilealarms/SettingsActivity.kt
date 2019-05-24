@@ -63,6 +63,7 @@ class SettingsActivity : AppCompatActivity() {
                 vh.NuageVersionRequest(url, TAG).thenApply {
                     val currver = it?.getJSONArray("versions")?.findFirst { it.opt("status") == "CURRENT" }
                     url += "/api/${currver?.opt("version")}"
+                    intent.putExtra("ip", ip)
                     intent.putExtra("servername", servername)
                     intent.putExtra("url", url)
                 }.thenCompose { vh.NuageAuthRequest(url, TAG) }.thenAccept {

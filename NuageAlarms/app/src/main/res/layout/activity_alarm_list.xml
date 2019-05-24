@@ -41,26 +41,6 @@
                     app:layout_constraintTop_toTopOf="parent"
                     android:layout_marginTop="14dp"/>
 
-            <android.support.constraint.ConstraintLayout
-                    android:layout_width="wrap_content"
-                    android:id="@+id/labelsConstraintLayout"
-                    android:background="@drawable/labels_background"
-                    app:layout_constraintTop_toBottomOf="@+id/labelDropDown"
-                    app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="32dp"
-                    android:layout_height="wrap_content" android:layout_marginTop="7dp"
-                    android:layout_marginEnd="8dp" app:layout_constraintEnd_toEndOf="parent" android:visibility="gone"
-                    app:layout_constraintHorizontal_bias="1.0">
-
-                <android.support.v7.widget.RecyclerView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="8dp"
-                        android:layout_marginTop="8dp" app:layout_constraintTop_toTopOf="parent"
-                        android:layout_marginBottom="8dp" app:layout_constraintBottom_toBottomOf="parent"
-                        android:id="@+id/warningLabelRecyclerView" app:layout_constraintEnd_toEndOf="parent"
-                        android:layout_marginEnd="8dp" app:layout_constraintHorizontal_bias="0.0"/>
-            </android.support.constraint.ConstraintLayout>
-
             <Button
                     android:layout_width="0dp"
                     android:layout_height="56dp"
@@ -78,11 +58,11 @@
 
             <android.support.constraint.ConstraintLayout
                     android:layout_width="match_parent"
-                    app:layout_constraintTop_toBottomOf="@+id/labelsConstraintLayout"
+                    app:layout_constraintTop_toBottomOf="@+id/filterDropDown"
                     android:id="@+id/filtersConstraintLayout" app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent" android:layout_height="wrap_content"
                     android:layout_marginStart="16dp" android:layout_marginEnd="16dp" android:visibility="gone"
-                    android:background="@drawable/filters_background" android:layout_marginTop="8dp">
+                    android:background="@drawable/filters_background">
 
                 <Button
                         android:layout_width="0dp"
@@ -232,6 +212,25 @@
                     android:layout_marginEnd="8dp" app:layout_constraintEnd_toEndOf="parent"
                     style="@style/Widget.AppCompat.Button.Colored" android:layout_marginBottom="32dp"
                     app:layout_constraintBottom_toBottomOf="parent"/>
+            <android.support.constraint.ConstraintLayout
+                    android:layout_width="wrap_content"
+                    android:id="@+id/labelsConstraintLayout"
+                    android:background="@drawable/labels_background"
+                    app:layout_constraintTop_toBottomOf="@+id/labelDropDown"
+                    app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="32dp"
+                    android:layout_height="wrap_content" android:layout_marginTop="6dp"
+                    android:layout_marginEnd="8dp" app:layout_constraintEnd_toEndOf="parent" android:visibility="gone"
+                    app:layout_constraintHorizontal_bias="1.0">
+
+                <android.support.v7.widget.RecyclerView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="8dp"
+                        android:layout_marginTop="8dp" app:layout_constraintTop_toTopOf="parent"
+                        android:layout_marginBottom="8dp" app:layout_constraintBottom_toBottomOf="parent"
+                        android:id="@+id/warningLabelRecyclerView" app:layout_constraintEnd_toEndOf="parent"
+                        android:layout_marginEnd="8dp" app:layout_constraintHorizontal_bias="0.0"/>
+            </android.support.constraint.ConstraintLayout>
 
         </android.support.constraint.ConstraintLayout>
     </ScrollView>

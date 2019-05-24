@@ -50,7 +50,7 @@
             <TextView
                     android:text="@string/app_description"
                     android:textColor="@color/colorCommonText"
-                    android:layout_width="361dp"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:id="@+id/appDescription" android:layout_marginTop="8dp"
                     app:layout_constraintTop_toBottomOf="@+id/appDescriptionTitle" android:textSize="18sp"
@@ -60,7 +60,7 @@
             <TextView
                     android:text="@string/company_description"
                     android:textColor="@color/colorCommonText"
-                    android:layout_width="386dp"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:id="@+id/companyDescription" android:layout_marginTop="8dp"
                     app:layout_constraintTop_toBottomOf="@+id/companyDescriptionTitle" android:textSize="18sp"

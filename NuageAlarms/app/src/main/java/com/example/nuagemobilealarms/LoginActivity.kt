@@ -51,7 +51,6 @@ class LoginActivity: AppCompatActivity() {
                 intent.putExtra("companyname", companyname.text.trim().toString())
                 intent.putExtra("username", username.text.trim().toString())
                 intent.putExtra("password", password.text.toString())
-                //intent.putExtra("initauth", Base64.encodeToString("${username.text.trim()}:${password.text!!.trim()}".toByteArray(), Base64.DEFAULT))
                 extras = intent.extras!!
 
                 vh.NuageAuthRequest(url, TAG).thenAccept {

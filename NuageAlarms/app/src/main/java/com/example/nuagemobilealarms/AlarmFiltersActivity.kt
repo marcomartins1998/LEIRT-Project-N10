@@ -98,6 +98,13 @@ class AlarmFiltersActivity : AppCompatActivity() {
         AndroidHelper.setupDrawer(this, intent, navigationView, drawerLayout)
         initWarningLabelsRecView()
 
+        menuButton.setOnClickListener { drawerLayout.openDrawer(navigationView) }
+        labelsButton.setOnClickListener { setVisibilityOnAction(labelsConstraintLayout) }
+        filtersButton.setOnClickListener { setVisibilityOnAction(filtersConstraintLayout) }
+        enterpriseDropDown.setOnClickListener { setVisibilityOnAction(enterpriseRecView) }
+        domainDropDown.setOnClickListener { setVisibilityOnAction(domainRecView) }
+        zoneDropDown.setOnClickListener { setVisibilityOnAction(zoneRecView) }
+        vportDropDown.setOnClickListener { setVisibilityOnAction(vportRecView) }
         searchButton.setOnClickListener {
             Thread(Runnable {
                 enterpriseList.map { vh.NuageGetAllEnterpriseAlarms(TAG, it.id) }.reduce { cf1, cf2 ->
@@ -108,20 +115,12 @@ class AlarmFiltersActivity : AppCompatActivity() {
                     if (filtersSeveritySpinner.selectedItem != "ALL") {
                         alarmList.removeAll(alarmList.filter { it.severity != filtersSeveritySpinner.selectedItem })
                         val entityList = enterpriseList + domainList + zoneList + vportList
-                        alarmList.removeAll(alarmList.filter { alarm -> entityList.any { it.id != alarm.parentid } })
+                        alarmList.removeAll(alarmList.filter { alarm -> entityList.all { it.id != alarm.parentid } })
                     }
                     alarmRecAdapter.notifyDataSetChanged()
                 }
             }).start()
         }
-
-        menuButton.setOnClickListener { drawerLayout.openDrawer(navigationView) }
-        labelsButton.setOnClickListener { setVisibilityOnAction(labelsConstraintLayout) }
-        filtersButton.setOnClickListener { setVisibilityOnAction(filtersConstraintLayout) }
-        enterpriseDropDown.setOnClickListener { setVisibilityOnAction(enterpriseRecView) }
-        domainDropDown.setOnClickListener { setVisibilityOnAction(domainRecView) }
-        zoneDropDown.setOnClickListener { setVisibilityOnAction(zoneRecView) }
-        vportDropDown.setOnClickListener { setVisibilityOnAction(vportRecView) }
 
         val arradapter =
             ArrayAdapter.createFromResource(this, R.array.severity_items, android.R.layout.simple_spinner_item)

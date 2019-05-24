@@ -58,6 +58,7 @@ class MainActivity : AppCompatActivity(){
                 vh.NuageVersionRequest(url, TAG).thenAccept {
                     val currver = it?.getJSONArray("versions")?.findFirst{it.opt("status")=="CURRENT"}
                     val intent = Intent(this@MainActivity, LoginActivity::class.java)
+                    intent.putExtra("ip", ip)
                     intent.putExtra("servername", servername)
                     intent.putExtra("url", url+"/api/${currver?.opt("version")}")
 

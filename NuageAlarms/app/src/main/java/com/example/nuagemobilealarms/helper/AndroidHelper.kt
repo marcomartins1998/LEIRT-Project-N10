@@ -31,7 +31,7 @@ class AndroidHelper{
                 if (context.javaClass.simpleName == NotificationFiltersActivity::class.java.simpleName) drawerLayout.closeDrawer(
                     navigationView
                 )
-                context.startActivity(
+                else context.startActivity(
                     Intent(
                         context,
                         NotificationFiltersActivity::class.java
