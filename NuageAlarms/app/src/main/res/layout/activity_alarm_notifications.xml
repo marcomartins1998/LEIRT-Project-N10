@@ -174,9 +174,18 @@
                     android:background="@color/colorButton"
                     android:layout_marginStart="8dp" app:layout_constraintStart_toStartOf="parent"
                     android:layout_marginEnd="8dp" app:layout_constraintEnd_toEndOf="parent"
-                    style="@style/Widget.AppCompat.Button.Colored" android:layout_marginBottom="32dp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/filtersConstraintLayout" android:layout_marginTop="8dp"/>
+                    style="@style/Widget.AppCompat.Button.Colored"
+                    app:layout_constraintTop_toBottomOf="@+id/filtersConstraintLayout" android:layout_marginTop="8dp"
+                    app:layout_constraintBottom_toTopOf="@+id/activateNotifications"
+                    android:layout_marginBottom="16dp"/>
+            <Switch
+                    android:text="@string/activate_notifications"
+                    android:layout_width="197dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/activateNotifications" android:layout_marginBottom="32dp"
+                    app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintStart_toStartOf="parent"
+                    android:layout_marginStart="8dp" app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_marginEnd="8dp"/>
 
         </android.support.constraint.ConstraintLayout>
     </ScrollView>

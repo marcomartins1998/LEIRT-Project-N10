@@ -7,6 +7,7 @@ import android.os.Build
 
 class NuageAlarmsApp : Application() {
     companion object {
+        val CHANNEL_SERVICE_ID = "alarm_listener_channel"
         val CHANNEL_1_ID = "alarm_notification_channel"
     }
 
@@ -15,12 +16,25 @@ class NuageAlarmsApp : Application() {
         createNotificationChannel()
     }
 
+    fun createServiceChannel() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val serviceChannel = NotificationChannel(
+                CHANNEL_SERVICE_ID,
+                "Alarm Listener Channel",
+                NotificationManager.IMPORTANCE_DEFAULT
+            )
+
+            val notificationManager = getSystemService(NotificationManager::class.java)
+            notificationManager.createNotificationChannel(serviceChannel)
+        }
+    }
+
     fun createNotificationChannel() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val alarmChannel = NotificationChannel(
                 CHANNEL_1_ID,
                 "Alarm Notification Channel",
-                NotificationManager.IMPORTANCE_DEFAULT
+                NotificationManager.IMPORTANCE_HIGH
             )
             alarmChannel.description =
                 "This channel is used to display incoming alarms from the user-selected entities."

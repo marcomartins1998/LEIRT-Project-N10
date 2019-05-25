@@ -53,6 +53,7 @@
     <string name="settings_account">Account:</string>
     <string name="settings_server">Server:</string>
     <string name="button_save">Save</string>
+    <string name="activate_notifications">Activate Notifications</string>
 
     <string name="header_description">Description:</string>
     <string name="app_description_title">App Description:</string>
