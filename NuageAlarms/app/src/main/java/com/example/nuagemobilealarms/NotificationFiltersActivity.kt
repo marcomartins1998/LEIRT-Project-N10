@@ -1,9 +1,9 @@
 package com.example.nuagemobilealarms
 
+import android.content.Intent
 import android.os.Bundle
 import android.support.constraint.ConstraintLayout
 import android.support.design.widget.NavigationView
-import android.support.v4.app.NotificationCompat
 import android.support.v4.app.NotificationManagerCompat
 import android.support.v4.widget.DrawerLayout
 import android.support.v7.app.AppCompatActivity
@@ -11,14 +11,12 @@ import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.util.Log
 import android.view.View
-import android.widget.ArrayAdapter
-import android.widget.Button
-import android.widget.ImageButton
-import android.widget.Spinner
-import com.example.nuagemobilealarms.NuageAlarmsApp.Companion.CHANNEL_1_ID
+import android.widget.*
 import com.example.nuagemobilealarms.adapter.EntityGroupRecViewAdapter
 import com.example.nuagemobilealarms.connect.VolleySingleton
+import com.example.nuagemobilealarms.dto.EntityDto
 import com.example.nuagemobilealarms.helper.AndroidHelper
+import com.example.nuagemobilealarms.helper.FileHelper
 import com.example.nuagemobilealarms.helper.VolleyHelper
 import com.example.nuagemobilealarms.model.Entity
 import com.rabbitmq.client.*
@@ -36,6 +34,7 @@ class NotificationFiltersActivity : AppCompatActivity() {
 
     lateinit var vs: VolleySingleton
     lateinit var vh: VolleyHelper
+    lateinit var fh: FileHelper
     lateinit var notificationManager: NotificationManagerCompat
     lateinit var connection: Connection
     lateinit var channel: Channel
@@ -68,6 +67,7 @@ class NotificationFiltersActivity : AppCompatActivity() {
     lateinit var filtersButton: Button
     lateinit var filtersConstraintLayout: ConstraintLayout
     lateinit var filtersSeveritySpinner: Spinner
+    lateinit var activateNotifications: Switch
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -77,6 +77,8 @@ class NotificationFiltersActivity : AppCompatActivity() {
         notificationManager = NotificationManagerCompat.from(this)
         vs = VolleySingleton.getInstance(this.applicationContext)
         vh = VolleyHelper(this, intent, vs)
+        fh = FileHelper(this)
+
 
         drawerLayout = findViewById(R.id.alarmlistDrawerLayout)
         menuButton = findViewById(R.id.menuButton)
@@ -89,6 +91,7 @@ class NotificationFiltersActivity : AppCompatActivity() {
         vportDropDown = findViewById(R.id.vportsDropDown)
         filtersSeveritySpinner = findViewById(R.id.severitySpinner)
         saveButton = findViewById(R.id.saveButton)
+        activateNotifications = findViewById(R.id.activateNotifications)
 
         enterpriseRecView = findViewById(R.id.enterprisesRecyclerView)
         domainRecView = findViewById(R.id.domainsRecyclerView)
@@ -104,7 +107,16 @@ class NotificationFiltersActivity : AppCompatActivity() {
         zoneDropDown.setOnClickListener { setVisibilityOnAction(zoneRecView) }
         vportDropDown.setOnClickListener { setVisibilityOnAction(vportRecView) }
         saveButton.setOnClickListener {
+            val arrList = ArrayList<EntityDto>()
+            arrList.addAll((enterpriseList + domainList + zoneList + vportList).map { it.toEntityDto() })
+            fh.putEntityList(arrList)
+        }
 
+        val serviceIntent = Intent(this, AlarmListenerService::class.java)
+        activateNotifications.setOnClickListener {
+            if (activateNotifications.isChecked) {
+                startService(serviceIntent)
+            } else stopService(serviceIntent)
         }
 
         val arradapter =
@@ -141,33 +153,11 @@ class NotificationFiltersActivity : AppCompatActivity() {
         initEntitiesRecView()
 
         Thread(Runnable {
-            setupNotifications()
-            sendOnNotificationChannel()
+            //setupNotifications()
         }).start()
     }
 
-    fun sendOnNotificationChannel() {
-        val notification = NotificationCompat.Builder(this, CHANNEL_1_ID)
-            .setSmallIcon(R.drawable.ic_warning)
-            .setContentTitle("Test Title")
-            .setContentText("Test Text Message")
-            .setPriority(NotificationCompat.PRIORITY_MAX)
-            .build()
-
-        notificationManager.notify(1, notification)
-    }
-
     fun setupNotifications() {
-        /*val mqtt = MQTT()
-        mqtt.setHost(JMS_HOST, JMS_PORT)
-        mqtt.setUserName(JMS_USER)
-        mqtt.setPassword(JMS_PASSWORD)
-        //mqtt.setWillTopic("topic/CNAAlarms")
-        val c = mqtt.blockingConnection()
-        c.connect()
-        c.subscribe(arrayOf(Topic("topic/CNAAlarms", QoS.AT_LEAST_ONCE)))
-        val msg = c.receive()
-        println(msg.topic)*/
 
         val connectionFactory = ConnectionFactory()
         connectionFactory.virtualHost = "/"

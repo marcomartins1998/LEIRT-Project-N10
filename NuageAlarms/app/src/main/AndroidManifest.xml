@@ -24,6 +24,7 @@
         <activity android:name=".DescriptionActivity"/>
         <activity android:name=".AlarmFiltersActivity"/>
         <activity android:name=".NotificationFiltersActivity"/>
+        <service android:name=".AlarmListenerService"/>
     </application>
 
 </manifest>
