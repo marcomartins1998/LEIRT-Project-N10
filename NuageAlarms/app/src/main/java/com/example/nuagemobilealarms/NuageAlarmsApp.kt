@@ -4,6 +4,7 @@ import android.app.Application
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.os.Build
+import com.google.firebase.messaging.FirebaseMessaging
 
 class NuageAlarmsApp : Application() {
     companion object {
@@ -14,20 +15,21 @@ class NuageAlarmsApp : Application() {
     override fun onCreate() {
         super.onCreate()
         createNotificationChannel()
+        subscribeToAlarms()
     }
 
-    fun createServiceChannel() {
+    /*fun createServiceChannel() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val serviceChannel = NotificationChannel(
                 CHANNEL_SERVICE_ID,
                 "Alarm Listener Channel",
-                NotificationManager.IMPORTANCE_DEFAULT
+                NotificationManager.IMPORTANCE_HIGH
             )
 
             val notificationManager = getSystemService(NotificationManager::class.java)
             notificationManager.createNotificationChannel(serviceChannel)
         }
-    }
+    }*/
 
     fun createNotificationChannel() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -42,5 +44,10 @@ class NuageAlarmsApp : Application() {
             val notificationManager = getSystemService(NotificationManager::class.java)
             notificationManager.createNotificationChannel(alarmChannel)
         }
+    }
+
+    fun subscribeToAlarms(){
+        val fm = FirebaseMessaging.getInstance()
+        fm.subscribeToTopic("Alarms")
     }
 }
