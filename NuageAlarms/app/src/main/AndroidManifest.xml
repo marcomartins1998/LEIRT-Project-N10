@@ -12,11 +12,16 @@
             android:roundIcon="@mipmap/ic_launcher_round"
             android:supportsRtl="true"
             android:theme="@style/AppTheme">
+
         <activity android:name=".MainActivity" android:screenOrientation="portrait" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
-                <action android:name="android.intent.action.VIEW" />
+                <action android:name="android.intent.action.VIEW"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="MAIN_ACTIVITY"/>
+                <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>
         <activity android:name=".LoginActivity" android:screenOrientation="portrait" />
@@ -24,7 +29,8 @@
         <activity android:name=".DescriptionActivity" android:screenOrientation="portrait" />
         <activity android:name=".AlarmFiltersActivity" android:screenOrientation="portrait" />
         <activity android:name=".NotificationFiltersActivity" android:screenOrientation="portrait" />
-        <service android:name=".AlarmNotificationsService">
+        <service android:name=".AlarmNotificationsService"
+                 android:exported="false">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
