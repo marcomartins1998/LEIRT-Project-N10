@@ -19,7 +19,7 @@ import com.example.nuagemobilealarms.helper.AndroidHelper
 import com.example.nuagemobilealarms.helper.FileHelper
 import com.example.nuagemobilealarms.helper.VolleyHelper
 import com.example.nuagemobilealarms.model.Entity
-import com.rabbitmq.client.*
+import com.google.firebase.messaging.FirebaseMessaging
 import java8.util.concurrent.CompletableFuture
 
 
@@ -36,8 +36,6 @@ class NotificationFiltersActivity : AppCompatActivity() {
     lateinit var vh: VolleyHelper
     lateinit var fh: FileHelper
     lateinit var notificationManager: NotificationManagerCompat
-    lateinit var connection: Connection
-    lateinit var channel: Channel
 
     val enterpriseList: ArrayList<Entity> = arrayListOf()
     val domainList: ArrayList<Entity> = arrayListOf()
@@ -112,11 +110,10 @@ class NotificationFiltersActivity : AppCompatActivity() {
             fh.putEntityList(arrList)
         }
 
-        val serviceIntent = Intent(this, AlarmListenerService::class.java)
         activateNotifications.setOnClickListener {
             if (activateNotifications.isChecked) {
-                startService(serviceIntent)
-            } else stopService(serviceIntent)
+                FirebaseMessaging.getInstance().subscribeToTopic("Alarms-${intent?.extras?.getString("ip")}")
+            } else FirebaseMessaging.getInstance().unsubscribeFromTopic("Alarms-${intent?.extras?.getString("ip")}")
         }
 
         val arradapter =
@@ -157,41 +154,7 @@ class NotificationFiltersActivity : AppCompatActivity() {
         }).start()
     }
 
-    fun setupNotifications() {
 
-        val connectionFactory = ConnectionFactory()
-        connectionFactory.virtualHost = "/"
-        connectionFactory.host = intent.extras?.getString("ip")
-        connectionFactory.port = JMS_PORT
-        connectionFactory.username = JMS_USER
-        connectionFactory.password = JMS_PASSWORD
-        connectionFactory.isAutomaticRecoveryEnabled = false
-        connection = connectionFactory.newConnection()
-        channel = connection.createChannel()
-
-        val queueName = channel.queueDeclare().queue
-        channel.queueBind(queueName, "topic/CNAAlarms", ROUTING_KEY)
-
-        val autoAck = true
-        channel.basicConsume(queueName, object : DefaultConsumer(channel) {
-            override fun handleDelivery(
-                consumerTag: String?,
-                envelope: Envelope?,
-                properties: AMQP.BasicProperties?,
-                body: ByteArray?
-            ) {
-                //super.handleDelivery(consumerTag, envelope, properties, body)
-                val auxroutingkey = envelope?.routingKey
-                val contentType = properties?.contentType
-                val deliveryTag = envelope?.deliveryTag
-                // (process the message components here ...)
-                println()
-                println("---(NOTIFICATION RECEIVED)---")
-                println()
-
-            }
-        })
-    }
 
     fun initEntitiesRecView() {
         vportRecAdapter = EntityGroupRecViewAdapter(this, vportList)
@@ -222,7 +185,5 @@ class NotificationFiltersActivity : AppCompatActivity() {
         super.onStop()
         Log.d(TAG, "onStop: started")
         vs.requestQueue.cancelAll(TAG)
-        //channel.close()
-        //connection.close()
     }
 }

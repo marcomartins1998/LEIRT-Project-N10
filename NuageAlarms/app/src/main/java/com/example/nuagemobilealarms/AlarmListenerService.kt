@@ -8,7 +8,6 @@ import android.os.IBinder
 import android.support.v4.app.NotificationCompat
 import android.support.v4.app.NotificationManagerCompat
 import com.example.nuagemobilealarms.NuageAlarmsApp.Companion.CHANNEL_1_ID
-import com.example.nuagemobilealarms.NuageAlarmsApp.Companion.CHANNEL_SERVICE_ID
 import com.example.nuagemobilealarms.helper.FileHelper
 import com.example.nuagemobilealarms.mock.AlarmBuilder
 import com.example.nuagemobilealarms.model.Alarm
@@ -26,26 +25,6 @@ class AlarmListenerService : Service() {
         notificationManager = NotificationManagerCompat.from(this)
     }
 
-    override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        val serviceNotification = NotificationCompat.Builder(this, CHANNEL_SERVICE_ID)
-            .setContentTitle("Alarm Listener")
-            .setContentText("Listening on Nuage alarms.")
-            .build()
-
-        val ses = Executors.newScheduledThreadPool(1)
-        val throwAlarm = {
-            val entityList = fh.getEntityList()
-            val newAlarm = AlarmBuilder.mockAlarm(entityList)
-            sendOnNotificationChannel(newAlarm)
-            fh.addToAlarmList(newAlarm)
-        }
-        ses.scheduleAtFixedRate(throwAlarm, 5, 10, TimeUnit.SECONDS)
-        /*Thread(Runnable {
-
-        })*/
-        startForeground(1, serviceNotification)
-        return START_STICKY
-    }
 
     fun sendOnNotificationChannel(alarm: Alarm) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {

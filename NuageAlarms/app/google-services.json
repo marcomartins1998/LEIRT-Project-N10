@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "114547603949",
+    "firebase_url": "https://nuagealarms.firebaseio.com",
+    "project_id": "nuagealarms",
+    "storage_bucket": "nuagealarms.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:114547603949:android:2b226b75f0ad3bb3",
+        "android_client_info": {
+          "package_name": "com.example.nuagemobilealarms"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "114547603949-oesl54bmkmns1ojtc18i1692oqbm0t5n.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.nuagemobilealarms",
+            "certificate_hash": "d5cf433380d21d6ca1abc8b1bc06e00c21479b63"
+          }
+        },
+        {
+          "client_id": "114547603949-lhr2tjegscp4hd8nr8timlrjn3kfc8k9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCQC3zfIHygA5ByGpGoEssIkqt-ppZ44aw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "114547603949-lhr2tjegscp4hd8nr8timlrjn3kfc8k9.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
