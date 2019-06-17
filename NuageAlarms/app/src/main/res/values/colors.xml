@@ -33,4 +33,7 @@
     <color name="WARNING">#C4A300</color>
     <color name="INFO">#0B25EC</color>
 
+    <color name="notificationProblemTitle">#000000</color>
+    <color name="notificationProblemText">#505050</color>
+
 </resources>

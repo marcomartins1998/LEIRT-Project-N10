@@ -25,6 +25,7 @@
 
     <string name="filters">Filters</string>
     <string name="labels">Labels</string>
+    <string name="help">Help</string>
     <string name="severity">Severity:</string>
     <string-array name="severity_items">
         <item>CRITICAL</item>
@@ -59,7 +60,7 @@
     <string name="app_description_title">App Description:</string>
     <string name="app_description">
         This Application was developed by Marco Martins in collaboration with ISEL and Nokia. This app\'s function is
-        supposed to alert and allow visualizatio of current existing alarms all over Nuage\'s Network.
+        supposed to alert and allow visualization of current existing alarms all over Nuage\'s Network.
     </string>
     <string name="company_description_title">Company Description:</string>
     <string name="company_description">
@@ -67,6 +68,10 @@
         enterprise and telecommunications industries. We have applied new thinking to delivering massively scalable and
         highly programmable SDN solutions from the data center to the WAN with the security and availability required by
         business-critical environments.
+    </string>
+    <string name="notification_problem1_title">Not receiving notifications when app is closed?</string>
+    <string name="notification_problem1_text">Try going to your phone\'s Security -> Permissions -> Autostart and toggle
+        NuageMobileAlarms
     </string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>

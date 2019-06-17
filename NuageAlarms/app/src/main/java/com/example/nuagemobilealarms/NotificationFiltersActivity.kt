@@ -1,6 +1,5 @@
 package com.example.nuagemobilealarms
 
-import android.content.Intent
 import android.os.Bundle
 import android.support.constraint.ConstraintLayout
 import android.support.design.widget.NavigationView
@@ -26,11 +25,6 @@ import java8.util.concurrent.CompletableFuture
 // TODO test with API level above and below 26
 class NotificationFiltersActivity : AppCompatActivity() {
     val TAG = "NotificationFiltersAct"
-    val JMS_USER = "jmsclient"
-    val JMS_PASSWORD = "jmsclient"
-    //val JMS_HOST = "124.252.253.106"
-    val JMS_PORT = 5672
-    val ROUTING_KEY = "NuageAlarmsApp"
 
     lateinit var vs: VolleySingleton
     lateinit var vh: VolleyHelper
@@ -67,6 +61,9 @@ class NotificationFiltersActivity : AppCompatActivity() {
     lateinit var filtersSeveritySpinner: Spinner
     lateinit var activateNotifications: Switch
 
+    lateinit var helpButton: Button
+    lateinit var helpConstraintLayout: ConstraintLayout
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_alarm_notifications)
@@ -83,6 +80,8 @@ class NotificationFiltersActivity : AppCompatActivity() {
         navigationView = findViewById(R.id.navigationView)
         filtersButton = findViewById(R.id.filterDropDown)
         filtersConstraintLayout = findViewById(R.id.filtersConstraintLayout)
+        helpButton = findViewById(R.id.helpDropDown)
+        helpConstraintLayout = findViewById(R.id.helpConstraintLayout)
         enterpriseDropDown = findViewById(R.id.enterprisesDropDown)
         domainDropDown = findViewById(R.id.domainsDropDown)
         zoneDropDown = findViewById(R.id.zonesDropDown)
@@ -100,6 +99,7 @@ class NotificationFiltersActivity : AppCompatActivity() {
 
         menuButton.setOnClickListener { drawerLayout.openDrawer(navigationView) }
         filtersButton.setOnClickListener { setVisibilityOnAction(filtersConstraintLayout) }
+        helpButton.setOnClickListener { setVisibilityOnAction(helpConstraintLayout) }
         enterpriseDropDown.setOnClickListener { setVisibilityOnAction(enterpriseRecView) }
         domainDropDown.setOnClickListener { setVisibilityOnAction(domainRecView) }
         zoneDropDown.setOnClickListener { setVisibilityOnAction(zoneRecView) }
