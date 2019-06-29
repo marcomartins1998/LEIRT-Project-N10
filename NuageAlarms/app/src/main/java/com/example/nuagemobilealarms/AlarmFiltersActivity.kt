@@ -93,7 +93,7 @@ class AlarmFiltersActivity : AppCompatActivity() {
         domainRecView = findViewById(R.id.domainsRecyclerView)
         zoneRecView = findViewById(R.id.zonesRecyclerView)
         vportRecView = findViewById(R.id.vportsRecyclerView)
-        alarmRecView = findViewById(R.id.alarmRecyclerView)
+        alarmRecView = findViewById(R.id.notificationRecyclerView)
 
         AndroidHelper.setupDrawer(this, intent, navigationView, drawerLayout)
         initWarningLabelsRecView()
@@ -214,6 +214,11 @@ class AlarmFiltersActivity : AppCompatActivity() {
             View.VISIBLE -> view.visibility = View.GONE
             View.GONE -> view.visibility = View.VISIBLE
         }
+    }
+
+    override fun onBackPressed() {
+        val activity = intent.extras.getString("activity")
+        if (activity != "LoginActivity" && activity != "SettingsActivity") super.onBackPressed()
     }
 
     override fun onStop() {

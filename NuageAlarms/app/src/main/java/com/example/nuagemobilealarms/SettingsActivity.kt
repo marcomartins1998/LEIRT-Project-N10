@@ -12,6 +12,7 @@ import com.example.nuagemobilealarms.dto.Properties
 import com.example.nuagemobilealarms.helper.AndroidHelper
 import com.example.nuagemobilealarms.helper.FileHelper
 import com.example.nuagemobilealarms.helper.VolleyHelper
+import com.google.firebase.messaging.FirebaseMessaging
 import org.json.JSONArray
 import org.json.JSONObject
 
@@ -78,6 +79,13 @@ class SettingsActivity : AppCompatActivity() {
                         "Basic " + Base64.encodeToString("${username.text.trim()}:$apiKey".toByteArray(), 0)
                     )
                     intent.putExtra("authexpiry", apiKeyExpiry)
+
+                    //Check if a different server/user has been chosen/logged in than the previous one(assuming there is one) and unsubscribe from the notification topic
+                    if (fh.getProperties().noneNullOrEmpty() && fh.getCurrentSubscription().isNotEmpty()) {
+                        val props = fh.getProperties()
+                        if (props.servernameip != servernameip.text.toString() || props.port != port.text.toString() || props.username != username.text.toString() || props.companyname != companyname.text.toString())
+                            FirebaseMessaging.getInstance().unsubscribeFromTopic(fh.getCurrentSubscription())
+                    }
 
                     fh.putProperties(
                         Properties(

@@ -11,12 +11,14 @@ import android.support.v7.widget.RecyclerView
 import android.util.Log
 import android.view.View
 import android.widget.*
+import com.example.nuagemobilealarms.adapter.AlarmRecViewAdapter
 import com.example.nuagemobilealarms.adapter.EntityGroupRecViewAdapter
 import com.example.nuagemobilealarms.connect.VolleySingleton
 import com.example.nuagemobilealarms.dto.EntityDto
 import com.example.nuagemobilealarms.helper.AndroidHelper
 import com.example.nuagemobilealarms.helper.FileHelper
 import com.example.nuagemobilealarms.helper.VolleyHelper
+import com.example.nuagemobilealarms.model.Alarm
 import com.example.nuagemobilealarms.model.Entity
 import com.google.firebase.messaging.FirebaseMessaging
 import java8.util.concurrent.CompletableFuture
@@ -35,6 +37,7 @@ class NotificationFiltersActivity : AppCompatActivity() {
     val domainList: ArrayList<Entity> = arrayListOf()
     val zoneList: ArrayList<Entity> = arrayListOf()
     val vportList: ArrayList<Entity> = arrayListOf()
+    val notificationList: ArrayList<Alarm> = arrayListOf()
 
     lateinit var enterpriseDropDown: Button
     lateinit var enterpriseRecView: RecyclerView
@@ -52,6 +55,9 @@ class NotificationFiltersActivity : AppCompatActivity() {
     lateinit var vportRecView: RecyclerView
     lateinit var vportRecAdapter: EntityGroupRecViewAdapter
 
+    lateinit var notificationRecView: RecyclerView
+    lateinit var notificationRecAdapter: AlarmRecViewAdapter
+
     lateinit var saveButton: Button
     lateinit var drawerLayout: DrawerLayout
     lateinit var menuButton: ImageButton
@@ -60,6 +66,7 @@ class NotificationFiltersActivity : AppCompatActivity() {
     lateinit var filtersConstraintLayout: ConstraintLayout
     lateinit var filtersSeveritySpinner: Spinner
     lateinit var activateNotifications: Switch
+    lateinit var refreshButton: ImageButton
 
     lateinit var helpButton: Button
     lateinit var helpConstraintLayout: ConstraintLayout
@@ -89,11 +96,13 @@ class NotificationFiltersActivity : AppCompatActivity() {
         filtersSeveritySpinner = findViewById(R.id.severitySpinner)
         saveButton = findViewById(R.id.saveButton)
         activateNotifications = findViewById(R.id.activateNotifications)
+        refreshButton = findViewById(R.id.refreshImageButton)
 
         enterpriseRecView = findViewById(R.id.enterprisesRecyclerView)
         domainRecView = findViewById(R.id.domainsRecyclerView)
         zoneRecView = findViewById(R.id.zonesRecyclerView)
         vportRecView = findViewById(R.id.vportsRecyclerView)
+        notificationRecView = findViewById(R.id.notificationRecyclerView)
 
         AndroidHelper.setupDrawer(this, intent, navigationView, drawerLayout)
 
@@ -107,13 +116,35 @@ class NotificationFiltersActivity : AppCompatActivity() {
         saveButton.setOnClickListener {
             val arrList = ArrayList<EntityDto>()
             arrList.addAll((enterpriseList + domainList + zoneList + vportList).map { it.toEntityDto() })
-            fh.putEntityList(arrList)
+            //fh.putEntityList(arrList, intent.extras?.getString("ip")!!, intent.extras?.getString("username")!!)
+            if (fh.getProperties().noneNullOrEmpty()) fh.putEntityList(
+                arrList,
+                intent.extras?.getString("ip")!!,
+                intent.extras?.getString("username")!!
+            )
+            else fh.putEntityList(arrList, "NoIP", "NoUsername")
         }
+        refreshButton.setOnClickListener {
+            notificationList.clear()
+            notificationList.addAll(
+                fh.getAlarmList(
+                    intent.extras?.getString("ip")!!,
+                    intent.extras?.getString("username")!!
+                )
+            )
+            notificationRecAdapter.notifyDataSetChanged()
+        }
+
+        activateNotifications.isChecked = !fh.getCurrentSubscription().isNullOrEmpty()
 
         activateNotifications.setOnClickListener {
             if (activateNotifications.isChecked) {
                 FirebaseMessaging.getInstance().subscribeToTopic("Alarms-${intent?.extras?.getString("ip")}")
-            } else FirebaseMessaging.getInstance().unsubscribeFromTopic("Alarms-${intent?.extras?.getString("ip")}")
+                fh.putCurrentSubscription("Alarms-${intent?.extras?.getString("ip")}")
+            } else {
+                FirebaseMessaging.getInstance().unsubscribeFromTopic("Alarms-${intent?.extras?.getString("ip")}")
+                fh.putCurrentSubscription("")
+            }
         }
 
         val arradapter =
@@ -148,13 +179,14 @@ class NotificationFiltersActivity : AppCompatActivity() {
         }).start()
 
         initEntitiesRecView()
+        initNotificationsRecView()
+        //TODO Still subscribed from previous VSD VM, do unsubscribe here once then remove this code
+        //FirebaseMessaging.getInstance().unsubscribeFromTopic("Alarms-124.252.253.50")
 
         Thread(Runnable {
             //setupNotifications()
         }).start()
     }
-
-
 
     fun initEntitiesRecView() {
         vportRecAdapter = EntityGroupRecViewAdapter(this, vportList)
@@ -174,11 +206,23 @@ class NotificationFiltersActivity : AppCompatActivity() {
         enterpriseRecView.adapter = enterpriseRecAdapter
     }
 
+    fun initNotificationsRecView() {
+        notificationRecAdapter =
+            AlarmRecViewAdapter(this, notificationList, enterpriseList + domainList + zoneList + vportList)
+        notificationRecView.layoutManager = LinearLayoutManager(this.applicationContext)
+        notificationRecView.adapter = notificationRecAdapter
+    }
+
     fun setVisibilityOnAction(view: View) {
         when (view.visibility) {
             View.VISIBLE -> view.visibility = View.GONE
             View.GONE -> view.visibility = View.VISIBLE
         }
+    }
+
+    override fun onBackPressed() {
+        val activity = intent.extras.getString("activity")
+        if (activity != "SettingsActivity") super.onBackPressed()
     }
 
     override fun onStop() {

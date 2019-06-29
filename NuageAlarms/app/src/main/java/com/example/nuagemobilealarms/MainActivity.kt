@@ -13,6 +13,7 @@ import com.example.nuagemobilealarms.dto.Properties
 import com.example.nuagemobilealarms.helper.AndroidHelper
 import com.example.nuagemobilealarms.helper.FileHelper
 import com.example.nuagemobilealarms.helper.VolleyHelper
+import com.google.firebase.messaging.FirebaseMessaging
 import org.json.JSONArray
 import org.json.JSONObject
 
@@ -61,6 +62,13 @@ class MainActivity : AppCompatActivity(){
                     intent.putExtra("ip", ip)
                     intent.putExtra("servername", servername)
                     intent.putExtra("url", url+"/api/${currver?.opt("version")}")
+
+                    //Check if a different server has been chosen than the previous one(assuming there is one) and unsubscribe from the notification topic
+                    if (fh.getProperties().noneNullOrEmpty() && fh.getCurrentSubscription().isNotEmpty()) {
+                        val props = fh.getProperties()
+                        if (props.servernameip != servernameip.text.toString() || props.port != port.text.toString())
+                            FirebaseMessaging.getInstance().unsubscribeFromTopic(fh.getCurrentSubscription())
+                    }
 
                     //Store properties in internal file system or not depending on the remember server check
                     val properties: Properties = when (rememberservercheck.isChecked) {

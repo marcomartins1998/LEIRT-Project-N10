@@ -13,6 +13,7 @@ import com.example.nuagemobilealarms.dto.Properties
 import com.example.nuagemobilealarms.helper.AndroidHelper
 import com.example.nuagemobilealarms.helper.FileHelper
 import com.example.nuagemobilealarms.helper.VolleyHelper
+import com.google.firebase.messaging.FirebaseMessaging
 
 class LoginActivity: AppCompatActivity() {
     val TAG = "LoginActivity"
@@ -59,7 +60,15 @@ class LoginActivity: AppCompatActivity() {
                     val intent = Intent(this@LoginActivity, AlarmFiltersActivity::class.java)
                     intent.putExtra("auth", "Basic "+Base64.encodeToString("${username.text.trim()}:$apiKey".toByteArray(), 0))
                     intent.putExtra("authexpiry", apiKeyExpiry)
+                    intent.putExtra("parentActivity", this.javaClass.simpleName)
                     intent.putExtras(extras)
+
+                    //Check if a different user has logged in other than the previous one(assuming there is one) and unsubscribe from the notification topic
+                    if (fh.getProperties().noneNullOrEmpty() && fh.getCurrentSubscription().isNotEmpty()) {
+                        val props = fh.getProperties()
+                        if (props.username != username.text.toString() || props.companyname != companyname.text.toString())
+                            FirebaseMessaging.getInstance().unsubscribeFromTopic(fh.getCurrentSubscription())
+                    }
 
                     val properties: Properties = when (remembermecheck.isChecked) {
                         true -> fh.getProperties().replace(

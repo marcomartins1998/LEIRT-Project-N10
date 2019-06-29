@@ -10,9 +10,10 @@ import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
 import java.io.*
 
+const val SUBSCRIPTION_FILENAME = "currsubscription.txt"
 const val PROPERTIES_FILENAME = "properties.txt"
-const val ENITITY_LIST_FILENAME = "entitylist.txt"
-const val ALARM_LOG = "alarmlog.txt"
+const val ENITITY_LIST_FILENAME_SUFIX = "entitylist.txt"
+const val ALARM_LOG_FILENAME_SUFIX = "alarmlog.txt"
 
 class FileHelper(val context: Context){
 
@@ -29,7 +30,6 @@ class FileHelper(val context: Context){
         } finally {
             fileis?.close()
         }
-        println("READ CHECK:" + str)
         return if (str == "") defaultReturn else str
     }
 
@@ -57,37 +57,43 @@ class FileHelper(val context: Context){
         write(PROPERTIES_FILENAME, mapper.writeValueAsString(properties))
     }
 
-    fun getEntityList(): ArrayList<EntityDto> {
+    fun getEntityList(ip: String, username: String): ArrayList<EntityDto> {
         val mapper = jacksonObjectMapper()
-        val jsonString = read(ENITITY_LIST_FILENAME, "[]")
+        val jsonString = read("$ip-$username-$ENITITY_LIST_FILENAME_SUFIX", "[]")
         val entityList: ArrayList<EntityDto> = mapper.readValue(jsonString)
         return entityList
     }
 
-    fun putEntityList(entityList: ArrayList<EntityDto>) {
+    fun putEntityList(entityList: ArrayList<EntityDto>, ip: String, username: String) {
         val mapper = ObjectMapper()
         println("CHECK:" + mapper.writeValueAsString(entityList))
-        write(ENITITY_LIST_FILENAME, mapper.writeValueAsString(entityList))
+        write("$ip-$username-$ENITITY_LIST_FILENAME_SUFIX", mapper.writeValueAsString(entityList))
     }
 
-    fun getAlarmList(): ArrayList<Alarm> {
+    fun getAlarmList(ip: String, username: String): ArrayList<Alarm> {
         val mapper = jacksonObjectMapper()
-        val jsonString = read(ALARM_LOG, "[]")
+        val jsonString = read("$ip-$username-$ALARM_LOG_FILENAME_SUFIX", "[]")
         val alarmList: ArrayList<Alarm> = mapper.readValue(jsonString)
         return alarmList
     }
 
-    fun putAlarmList(alarmList: ArrayList<Alarm>) {
+    fun putAlarmList(alarmList: ArrayList<Alarm>, ip: String, username: String) {
         val mapper = ObjectMapper()
         println("CHECK:" + mapper.writeValueAsString(alarmList))
-        write(ALARM_LOG, mapper.writeValueAsString(alarmList))
+        write("$ip-$username-$ALARM_LOG_FILENAME_SUFIX", mapper.writeValueAsString(alarmList))
     }
 
-    fun addToAlarmList(alarm: Alarm) {
+    fun addToAlarmList(alarm: Alarm, ip: String, username: String) {
         val mapper = jacksonObjectMapper()
-        val jsonString = read(ALARM_LOG, "[]")
+        val jsonString = read("$ip-$username-$ALARM_LOG_FILENAME_SUFIX", "[]")
         val alarmList: ArrayList<Alarm> = mapper.readValue(jsonString)
         alarmList.add(alarm)
-        write(ALARM_LOG, mapper.writeValueAsString(alarmList))
+        write("$ip-$username-$ALARM_LOG_FILENAME_SUFIX", mapper.writeValueAsString(alarmList))
+    }
+
+    fun getCurrentSubscription(): String = read(SUBSCRIPTION_FILENAME, "")
+
+    fun putCurrentSubscription(subscription: String) {
+        write(SUBSCRIPTION_FILENAME, subscription)
     }
 }
