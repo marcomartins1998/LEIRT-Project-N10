@@ -32,4 +32,7 @@ data class Properties(
         et1.setText(companyname, TextView.BufferType.EDITABLE)
         et2.setText(username, TextView.BufferType.EDITABLE)
     }
+
+    fun noneNullOrEmpty() =
+        !(servernameip.isNullOrEmpty() || port.isNullOrEmpty() || companyname.isNullOrEmpty() || username.isNullOrEmpty())
 }

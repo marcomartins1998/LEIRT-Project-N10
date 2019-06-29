@@ -25,7 +25,7 @@
     <color name="colorSettingsItemText">#fcb32c</color>
     <color name="colorNuageCommonText">#FFFFFF</color>
     <color name="colorNuageCommonHintText">#7AFFFFFF</color>
-    <color name="colorNuageMagenta">#9d1b32</color>
+    <color name="colorNuageMagenta">#9D1B32</color>
 
     <color name="CRITICAL">#4B0000</color>
     <color name="MAJOR">#FA0101</color>

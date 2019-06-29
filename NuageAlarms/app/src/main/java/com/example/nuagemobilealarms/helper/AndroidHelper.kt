@@ -24,19 +24,25 @@ class AndroidHelper{
                 if (context.javaClass.simpleName == AlarmFiltersActivity::class.java.simpleName) drawerLayout.closeDrawer(
                     navigationView
                 )
-                else context.startActivity(Intent(context, AlarmFiltersActivity::class.java).putExtras(intent.extras!!))
+                else {
+                    intent.putExtra("parentActivity", context.javaClass.simpleName)
+                    context.startActivity(Intent(context, AlarmFiltersActivity::class.java).putExtras(intent.extras!!))
+                }
                 true
             }
             navigationView.menu.getItem(1).setOnMenuItemClickListener {
                 if (context.javaClass.simpleName == NotificationFiltersActivity::class.java.simpleName) drawerLayout.closeDrawer(
                     navigationView
                 )
-                else context.startActivity(
-                    Intent(
-                        context,
-                        NotificationFiltersActivity::class.java
-                    ).putExtras(intent.extras!!)
-                )
+                else {
+                    intent.putExtra("parentActivity", context.javaClass.simpleName)
+                    context.startActivity(
+                        Intent(
+                            context,
+                            NotificationFiltersActivity::class.java
+                        ).putExtras(intent.extras!!)
+                    )
+                }
                 true
             }
             navigationView.menu.getItem(2).setOnMenuItemClickListener {

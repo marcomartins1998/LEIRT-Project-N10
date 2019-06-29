@@ -4,6 +4,7 @@ import android.app.Application
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.os.Build
+import com.example.nuagemobilealarms.helper.FileHelper
 import com.google.firebase.messaging.FirebaseMessaging
 
 class NuageAlarmsApp : Application() {
@@ -14,6 +15,7 @@ class NuageAlarmsApp : Application() {
     override fun onCreate() {
         super.onCreate()
         createNotificationChannel()
+        clearPreviousUnRememberedUserInfo()
         //subscribeToAlarms()
     }
 
@@ -30,6 +32,13 @@ class NuageAlarmsApp : Application() {
             val notificationManager = getSystemService(NotificationManager::class.java)
             notificationManager.createNotificationChannel(alarmChannel)
         }
+    }
+
+    fun clearPreviousUnRememberedUserInfo() {
+        val fh = FileHelper(this.applicationContext)
+        if (!fh.getProperties().noneNullOrEmpty() && fh.getCurrentSubscription().isNotEmpty())
+            FirebaseMessaging.getInstance().unsubscribeFromTopic(fh.getCurrentSubscription())
+        fh.putEntityList(arrayListOf(), "NoIP", "NoUsername")
     }
 
     /*fun subscribeToAlarms(){

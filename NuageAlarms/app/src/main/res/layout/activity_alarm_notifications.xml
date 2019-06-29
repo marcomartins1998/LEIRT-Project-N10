@@ -220,20 +220,53 @@
                     android:layout_height="38dp"
                     android:id="@+id/saveButton"
                     android:background="@color/colorButton"
-                    android:layout_marginStart="8dp" app:layout_constraintStart_toStartOf="parent"
+                    android:layout_marginStart="16dp" app:layout_constraintStart_toStartOf="parent"
                     android:layout_marginEnd="8dp" app:layout_constraintEnd_toEndOf="parent"
                     style="@style/Widget.AppCompat.Button.Colored"
                     app:layout_constraintTop_toBottomOf="@+id/filtersConstraintLayout"
-                    app:layout_constraintBottom_toTopOf="@+id/activateNotifications"
-                    android:layout_marginBottom="16dp" android:layout_marginTop="8dp"/>
+                    android:layout_marginTop="8dp" app:layout_constraintHorizontal_bias="0.16"/>
             <Switch
                     android:text="@string/activate_notifications"
                     android:layout_width="197dp"
                     android:layout_height="wrap_content"
-                    android:id="@+id/activateNotifications" android:layout_marginBottom="32dp"
-                    app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintStart_toStartOf="parent"
-                    android:layout_marginStart="8dp" app:layout_constraintEnd_toEndOf="parent"
-                    android:layout_marginEnd="8dp"/>
+                    android:id="@+id/activateNotifications"
+                    android:layout_marginStart="8dp"
+                    app:layout_constraintTop_toTopOf="@+id/saveButton"
+                    app:layout_constraintBottom_toBottomOf="@+id/saveButton"
+                    app:layout_constraintStart_toEndOf="@+id/saveButton" app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_marginEnd="16dp" app:layout_constraintHorizontal_bias="0.0"
+            />
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/allAlarmNotifications" android:textSize="18sp"
+                    android:text="@string/notification_alarms" android:textColor="@color/colorNuageMagenta"
+                    android:layout_marginStart="8dp"
+                    app:layout_constraintStart_toStartOf="parent" android:layout_marginEnd="8dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_marginTop="8dp" app:layout_constraintTop_toBottomOf="@+id/saveButton"
+            />
+            <ImageButton
+                    android:layout_width="34dp"
+                    android:layout_height="37dp" app:srcCompat="@drawable/ic_refresh"
+                    android:id="@+id/refreshImageButton" app:layout_constraintTop_toTopOf="@+id/allAlarmNotifications"
+                    app:layout_constraintBottom_toBottomOf="@+id/allAlarmNotifications"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/allAlarmNotifications" android:layout_marginStart="8dp"
+                    app:layout_constraintHorizontal_bias="1.0" android:layout_marginEnd="4dp"
+                    app:layout_constraintVertical_bias="0.22000003"
+                    android:backgroundTint="@color/colorBackground" android:tint="@color/colorNuageMagenta"/>
+            <android.support.v7.widget.RecyclerView
+                    android:layout_width="0dp"
+                    android:layout_height="230dp"
+                    android:id="@+id/notificationRecyclerView"
+                    app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="8dp"
+                    app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="8dp"
+                    app:layout_constraintTop_toBottomOf="@+id/allAlarmNotifications"
+                    android:background="@drawable/alarm_list_background"
+                    app:layout_constraintHorizontal_bias="0.0" android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp" app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintVertical_bias="0.0"/>
 
         </android.support.constraint.ConstraintLayout>
     </ScrollView>

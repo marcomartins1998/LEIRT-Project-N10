@@ -34,8 +34,9 @@ class AlarmRecViewAdapter(val context: Context, val alarmlist: List<Alarm>, val 
         }
 
         val ls = entitylist.filter { it.id == alarmlist[position].parentid }
-        if (ls.isEmpty()) holder.originTextView.text = alarmlist[position].parenttype
-        else holder.originTextView.text = ls[0].name
+        if (ls.isEmpty()) holder.originTextView.text =
+            "${alarmlist[position].parenttype} on ${alarmlist[position].startDate}"
+        else holder.originTextView.text = "${ls[0].name} on ${alarmlist[position].startDate}"
         holder.reasonTextView.text = alarmlist[position].reason
     }
 
