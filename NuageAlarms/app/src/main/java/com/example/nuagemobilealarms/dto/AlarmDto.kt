@@ -15,7 +15,8 @@ data class AlarmDto(
     @JsonProperty("name") val name: String,
     @JsonProperty("reason") val reason: String,
     @JsonProperty("severity") val severity: String,
-    @JsonProperty("timestamp") val timestamp: Long
+    @JsonProperty("timestamp") val timestamp: Long,
+    @JsonProperty("acknowledged") val acknowledged: Boolean
 ) {
     fun toModel() =
         Alarm(
@@ -25,6 +26,7 @@ data class AlarmDto(
             name = name,
             reason = reason,
             severity = severity,
-            startDate = Date(timestamp)
+            startDate = Date(timestamp),
+            acknowledged = acknowledged
         )
 }

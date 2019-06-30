@@ -180,8 +180,6 @@ class NotificationFiltersActivity : AppCompatActivity() {
 
         initEntitiesRecView()
         initNotificationsRecView()
-        //TODO Still subscribed from previous VSD VM, do unsubscribe here once then remove this code
-        //FirebaseMessaging.getInstance().unsubscribeFromTopic("Alarms-124.252.253.50")
 
         Thread(Runnable {
             //setupNotifications()
@@ -208,7 +206,7 @@ class NotificationFiltersActivity : AppCompatActivity() {
 
     fun initNotificationsRecView() {
         notificationRecAdapter =
-            AlarmRecViewAdapter(this, notificationList, enterpriseList + domainList + zoneList + vportList)
+            AlarmRecViewAdapter(this, vh, TAG, notificationList, enterpriseList + domainList + zoneList + vportList)
         notificationRecView.layoutManager = LinearLayoutManager(this.applicationContext)
         notificationRecView.adapter = notificationRecAdapter
     }

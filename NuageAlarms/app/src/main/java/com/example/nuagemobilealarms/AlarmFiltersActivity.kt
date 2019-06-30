@@ -199,7 +199,8 @@ class AlarmFiltersActivity : AppCompatActivity() {
     }
 
     fun initAlarmRecView() {
-        alarmRecAdapter = AlarmRecViewAdapter(this, alarmList, enterpriseList + domainList + zoneList + vportList)
+        alarmRecAdapter =
+            AlarmRecViewAdapter(this, vh, TAG, alarmList, enterpriseList + domainList + zoneList + vportList)
         alarmRecView.layoutManager = LinearLayoutManager(this)
 
         val divider = DividerItemDecoration(this, DividerItemDecoration.VERTICAL)
