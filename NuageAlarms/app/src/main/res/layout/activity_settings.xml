@@ -158,14 +158,13 @@
                     android:inputType="textPassword"
                     android:ems="10"
                     android:id="@+id/passWordInput"
-                    android:text="JMh1aGt39uGwktc8"
                     android:layout_marginStart="8dp"
                     app:layout_constraintStart_toStartOf="parent" android:layout_marginEnd="8dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/passWord" app:layout_constraintHorizontal_bias="0.0"
                     android:textColor="@color/colorNuageCommonText"
                     android:textColorHint="@color/colorNuageCommonHintText"
-                    android:backgroundTint="@color/colorNuageCommonText"/>
+                    android:backgroundTint="@color/colorNuageCommonText" android:text="5CyXBuDFa2yHckzI"/>
             <Button
                     android:text="@string/button_save"
                     android:layout_height="38dp"

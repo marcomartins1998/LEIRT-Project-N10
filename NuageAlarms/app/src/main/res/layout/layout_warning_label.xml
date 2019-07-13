@@ -5,15 +5,15 @@
                                              android:layout_height="wrap_content">
 
     <ImageView
-            android:layout_width="54dp"
-            android:layout_height="48dp" app:srcCompat="@drawable/ic_warning"
+            android:layout_width="40dp"
+            android:layout_height="35dp" app:srcCompat="@drawable/ic_warning"
             android:id="@+id/warningImage"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toTopOf="parent"/>
     <ImageView
-            android:layout_width="47dp"
-            android:layout_height="30dp" app:srcCompat="@drawable/ic_left_arrow"
+            android:layout_width="35dp"
+            android:layout_height="21dp" app:srcCompat="@drawable/ic_left_arrow"
             android:id="@+id/leftArrowImage"
             app:layout_constraintStart_toEndOf="@+id/warningImage"
             app:layout_constraintTop_toTopOf="@+id/warningImage"
@@ -21,9 +21,9 @@
     <TextView
             android:text="TextView"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="18dp"
             android:id="@+id/warningText"
-            android:textSize="18sp"
+            android:textSize="14sp"
             app:layout_constraintStart_toEndOf="@+id/leftArrowImage"
             app:layout_constraintTop_toTopOf="@+id/leftArrowImage"
             app:layout_constraintBottom_toBottomOf="@+id/leftArrowImage" app:layout_constraintVertical_bias="0.4"/>

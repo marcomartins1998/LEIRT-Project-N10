@@ -100,13 +100,13 @@ class SettingsActivity : AppCompatActivity() {
                             Intent(
                                 this@SettingsActivity,
                                 AlarmFiltersActivity::class.java
-                            ).putExtras(intent.extras!!)
+                            ).putExtras(intent.extras!!).putExtra("parentActivity", this.javaClass.simpleName)
                         )
                         "NotificationFiltersActivity" -> startActivity(
                             Intent(
                                 this@SettingsActivity,
                                 NotificationFiltersActivity::class.java
-                            ).putExtras(intent.extras!!)
+                            ).putExtras(intent.extras!!).putExtra("parentActivity", this.javaClass.simpleName)
                         )
                     }
 
