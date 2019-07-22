@@ -9,17 +9,19 @@ data class Alarm(
     val name: String,
     val reason: String,
     val severity: String,
-    val startDate: Date? = null
+    val startDate: Date? = null,
+    val acknowledged: Boolean
 ){
     companion object {
-        fun mapToAlarm(map: Map<String, String>, parenttype: String): Alarm{
+        fun mapToAlarm(map: Map<String, String>): Alarm {
             return Alarm(id = map["ID"]!!,
                 parentid = map["parentID"]!!,
-                parenttype = parenttype,
+                parenttype = map["parentType"]!!,
                 name = map["name"]!!,
                 reason = map["reason"]!!,
                 severity = map["severity"]!!,
-                startDate = Date(map["timestamp"]!!.toLong())
+                startDate = Date(map["timestamp"]!!.toLong()),
+                acknowledged = map["acknowledged"]!!.toBoolean()
             )
         }
     }

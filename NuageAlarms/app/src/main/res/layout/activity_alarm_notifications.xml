@@ -248,6 +248,16 @@
             />
             <ImageButton
                     android:layout_width="34dp"
+                    android:layout_height="37dp" app:srcCompat="@drawable/ic_trash"
+                    android:id="@+id/trashImageButton" app:layout_constraintTop_toTopOf="@+id/allAlarmNotifications"
+                    app:layout_constraintBottom_toBottomOf="@+id/allAlarmNotifications"
+                    app:layout_constraintVertical_bias="0.22000003"
+                    android:backgroundTint="@color/colorBackground" android:tint="@color/colorNuageMagenta"
+                    android:layout_marginEnd="8dp" app:layout_constraintEnd_toStartOf="@+id/allAlarmNotifications"
+                    android:layout_marginStart="4dp" app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"/>
+            <ImageButton
+                    android:layout_width="34dp"
                     android:layout_height="37dp" app:srcCompat="@drawable/ic_refresh"
                     android:id="@+id/refreshImageButton" app:layout_constraintTop_toTopOf="@+id/allAlarmNotifications"
                     app:layout_constraintBottom_toBottomOf="@+id/allAlarmNotifications"

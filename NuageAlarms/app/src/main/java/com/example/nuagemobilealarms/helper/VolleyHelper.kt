@@ -232,5 +232,32 @@ class VolleyHelper(val context: Context, val intent: Intent, val vs: VolleySingl
         return cp
     }
 
+    fun NuageAcknowledgeAlarm(tag: String, alarmid: String): CompletableFuture<Unit> {
+        val cp: CompletableFuture<Unit> = CompletableFuture()
+        val url = intent.extras!!.getString("url")!!
+        //Thread(Runnable {
+        NuageAuthIfExpired(url, tag).thenAccept {
+            val extras = intent.extras!!
+            val headers = HashMap<String, String>()
+            headers["X-Nuage-Organization"] = extras.getString("companyname") ?: ""
+            headers["Content-type"] = "application/json"
+            headers["Authorization"] = extras.getString("auth") ?: ""
+
+            val obj = JSONObject()
+            obj.put("acknowledged", true)
+            val jsonObj = JSONObjectRequest(
+                "$url/alarms/$alarmid",
+                Request.Method.PUT,
+                headers,
+                obj,
+                "Unable to acknowledge the alarm."
+            ) { cp.complete(null) }
+            jsonObj.tag = tag
+            vs.addToRequestQueue(jsonObj)
+        }
+        //}).start()
+        return cp
+    }
+
 }
 

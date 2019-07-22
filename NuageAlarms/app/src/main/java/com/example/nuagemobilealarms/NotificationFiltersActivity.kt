@@ -20,6 +20,7 @@ import com.example.nuagemobilealarms.helper.FileHelper
 import com.example.nuagemobilealarms.helper.VolleyHelper
 import com.example.nuagemobilealarms.model.Alarm
 import com.example.nuagemobilealarms.model.Entity
+import com.example.nuagemobilealarms.model.Filters
 import com.google.firebase.messaging.FirebaseMessaging
 import java8.util.concurrent.CompletableFuture
 
@@ -67,15 +68,18 @@ class NotificationFiltersActivity : AppCompatActivity() {
     lateinit var filtersSeveritySpinner: Spinner
     lateinit var activateNotifications: Switch
     lateinit var refreshButton: ImageButton
+    lateinit var trashButton: ImageButton
 
     lateinit var helpButton: Button
     lateinit var helpConstraintLayout: ConstraintLayout
 
+    lateinit var parentActivity: String
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_alarm_notifications)
         Log.d(TAG, "onCreate: started")
 
+        parentActivity = intent.extras.getString("parentActivity")
         notificationManager = NotificationManagerCompat.from(this)
         vs = VolleySingleton.getInstance(this.applicationContext)
         vh = VolleyHelper(this, intent, vs)
@@ -97,6 +101,7 @@ class NotificationFiltersActivity : AppCompatActivity() {
         saveButton = findViewById(R.id.saveButton)
         activateNotifications = findViewById(R.id.activateNotifications)
         refreshButton = findViewById(R.id.refreshImageButton)
+        trashButton = findViewById(R.id.trashImageButton)
 
         enterpriseRecView = findViewById(R.id.enterprisesRecyclerView)
         domainRecView = findViewById(R.id.domainsRecyclerView)
@@ -117,12 +122,12 @@ class NotificationFiltersActivity : AppCompatActivity() {
             val arrList = ArrayList<EntityDto>()
             arrList.addAll((enterpriseList + domainList + zoneList + vportList).map { it.toEntityDto() })
             //fh.putEntityList(arrList, intent.extras?.getString("ip")!!, intent.extras?.getString("username")!!)
-            if (fh.getProperties().noneNullOrEmpty()) fh.putEntityList(
-                arrList,
+            if (fh.getProperties().noneNullOrEmpty()) fh.putFilters(
                 intent.extras?.getString("ip")!!,
-                intent.extras?.getString("username")!!
+                intent.extras?.getString("username")!!,
+                Filters(arrList, filtersSeveritySpinner.selectedItem.toString())
             )
-            else fh.putEntityList(arrList, "NoIP", "NoUsername")
+            else fh.putFilters("NoIP", "NoUsername", Filters(arrList, filtersSeveritySpinner.selectedItem.toString()))
         }
         refreshButton.setOnClickListener {
             notificationList.clear()
@@ -132,6 +137,11 @@ class NotificationFiltersActivity : AppCompatActivity() {
                     intent.extras?.getString("username")!!
                 )
             )
+            notificationRecAdapter.notifyDataSetChanged()
+        }
+        trashButton.setOnClickListener {
+            notificationList.clear()
+            fh.putAlarmList(arrayListOf(), intent.extras?.getString("ip")!!, intent.extras?.getString("username")!!)
             notificationRecAdapter.notifyDataSetChanged()
         }
 
@@ -180,8 +190,6 @@ class NotificationFiltersActivity : AppCompatActivity() {
 
         initEntitiesRecView()
         initNotificationsRecView()
-        //TODO Still subscribed from previous VSD VM, do unsubscribe here once then remove this code
-        //FirebaseMessaging.getInstance().unsubscribeFromTopic("Alarms-124.252.253.50")
 
         Thread(Runnable {
             //setupNotifications()
@@ -208,7 +216,7 @@ class NotificationFiltersActivity : AppCompatActivity() {
 
     fun initNotificationsRecView() {
         notificationRecAdapter =
-            AlarmRecViewAdapter(this, notificationList, enterpriseList + domainList + zoneList + vportList)
+            AlarmRecViewAdapter(this, vh, TAG, notificationList, enterpriseList + domainList + zoneList + vportList)
         notificationRecView.layoutManager = LinearLayoutManager(this.applicationContext)
         notificationRecView.adapter = notificationRecAdapter
     }
@@ -221,8 +229,7 @@ class NotificationFiltersActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
-        val activity = intent.extras.getString("activity")
-        if (activity != "SettingsActivity") super.onBackPressed()
+        if (parentActivity != "SettingsActivity") super.onBackPressed()
     }
 
     override fun onStop() {

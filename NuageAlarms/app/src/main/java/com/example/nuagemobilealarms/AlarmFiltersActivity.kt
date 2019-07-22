@@ -66,11 +66,13 @@ class AlarmFiltersActivity : AppCompatActivity() {
     lateinit var filtersConstraintLayout: ConstraintLayout
     lateinit var filtersSeveritySpinner: Spinner
 
+    lateinit var parentActivity: String
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_alarm_list)
         Log.d(TAG, "onCreate: started")
 
+        parentActivity = intent.extras.getString("parentActivity")
         vs = VolleySingleton.getInstance(this.applicationContext)
         vh = VolleyHelper(this, intent, vs)
 
@@ -199,7 +201,8 @@ class AlarmFiltersActivity : AppCompatActivity() {
     }
 
     fun initAlarmRecView() {
-        alarmRecAdapter = AlarmRecViewAdapter(this, alarmList, enterpriseList + domainList + zoneList + vportList)
+        alarmRecAdapter =
+            AlarmRecViewAdapter(this, vh, TAG, alarmList, enterpriseList + domainList + zoneList + vportList)
         alarmRecView.layoutManager = LinearLayoutManager(this)
 
         val divider = DividerItemDecoration(this, DividerItemDecoration.VERTICAL)
@@ -217,8 +220,7 @@ class AlarmFiltersActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
-        val activity = intent.extras.getString("activity")
-        if (activity != "LoginActivity" && activity != "SettingsActivity") super.onBackPressed()
+        if (parentActivity != "LoginActivity" && parentActivity != "SettingsActivity") super.onBackPressed()
     }
 
     override fun onStop() {

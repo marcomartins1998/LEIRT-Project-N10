@@ -17,7 +17,8 @@ class AlarmBuilder {
                 name = "Test Name",
                 reason = "Test Reason: Very bad reason.",
                 severity = severityArr[rand.nextInt(severityArr.size)],
-                startDate = Date()
+                startDate = Date(),
+                acknowledged = false
             )
         }
     }
