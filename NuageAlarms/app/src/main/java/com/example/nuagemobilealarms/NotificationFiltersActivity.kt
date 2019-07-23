@@ -149,7 +149,7 @@ class NotificationFiltersActivity : AppCompatActivity() {
 
         activateNotifications.setOnClickListener {
             if (activateNotifications.isChecked) {
-                FirebaseMessaging.getInstance().subscribeToTopic("Alarms-${intent?.extras?.getString("ip")}")
+                val aux = FirebaseMessaging.getInstance().subscribeToTopic("Alarms-${intent?.extras?.getString("ip")}")
                 fh.putCurrentSubscription("Alarms-${intent?.extras?.getString("ip")}")
             } else {
                 FirebaseMessaging.getInstance().unsubscribeFromTopic("Alarms-${intent?.extras?.getString("ip")}")

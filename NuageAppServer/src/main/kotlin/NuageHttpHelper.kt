@@ -44,6 +44,7 @@ class NuageHttpHelper(
             "X-Nuage-Organization" to "csp",
             "Authorization" to "Basic " + Base64.getEncoder().encodeToString("${appProps.getProperty("JMS_AUTH_USER")}:${getAuthorization()}".toByteArray())
         )
+
         val r = get(url = alarmurl, headers = headers)
         if (r.statusCode == 200) {
             val mapresp = mapper.readValue(r.jsonArray.get(0).toString(), Map::class.java)

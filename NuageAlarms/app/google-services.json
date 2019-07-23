@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "114547603949-i8j7arcfgapmvtvolghqh4p74gc98574.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.nuagemobilealarms",
+            "certificate_hash": "a41570efd64178d59239a841e005fdf3eed7e5b7"
+          }
+        },
+        {
           "client_id": "114547603949-oesl54bmkmns1ojtc18i1692oqbm0t5n.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
