@@ -34,6 +34,7 @@ class FileHelper(val context: Context){
         return if (str == "") defaultReturn else str
     }
 
+    @Synchronized
     fun write(filename: String, input: String){
         var fileos: FileOutputStream? = null
         try {

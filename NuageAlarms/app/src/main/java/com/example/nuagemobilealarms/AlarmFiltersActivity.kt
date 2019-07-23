@@ -113,13 +113,20 @@ class AlarmFiltersActivity : AppCompatActivity() {
                     cf1.thenCombine(cf2) { l1, l2 -> l1 + l2 }
                 }.thenApply {
                     alarmList.clear()
-                    alarmList.addAll(it)
+                    //alarmList.addAll(it)
                     if (filtersSeveritySpinner.selectedItem != "ALL") {
-                        alarmList.removeAll(alarmList.filter { it.severity != filtersSeveritySpinner.selectedItem })
                         val entityList = enterpriseList + domainList + zoneList + vportList
-                        alarmList.removeAll(alarmList.filter { alarm -> entityList.all { it.id != alarm.parentid } })
+                        var auxlist = it.filter { it.severity == filtersSeveritySpinner.selectedItem }
+                            .filter { alarm -> entityList.any { it.id == alarm.parentid && it.checked } }
+                        alarmList.addAll(auxlist)
+                        alarmRecAdapter.notifyDataSetChanged()
+                        //alarmList.removeAll(alarmList.filter { it.severity != filtersSeveritySpinner.selectedItem })
+                        //val entityList = enterpriseList + domainList + zoneList + vportList
+                        //alarmList.removeAll(alarmList.filter { alarm -> entityList.all { it.id != alarm.parentid } })
+                    } else {
+                        alarmList.addAll(it)
+                        alarmRecAdapter.notifyDataSetChanged()
                     }
-                    alarmRecAdapter.notifyDataSetChanged()
                 }
             }).start()
         }
