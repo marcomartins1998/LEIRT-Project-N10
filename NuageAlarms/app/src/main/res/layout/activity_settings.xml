@@ -164,7 +164,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/passWord" app:layout_constraintHorizontal_bias="0.0"
                     android:textColor="@color/colorNuageCommonText"
                     android:textColorHint="@color/colorNuageCommonHintText"
-                    android:backgroundTint="@color/colorNuageCommonText" android:text="5CyXBuDFa2yHckzI"/>
+                    android:backgroundTint="@color/colorNuageCommonText"/>
             <Button
                     android:text="@string/button_save"
                     android:layout_height="38dp"

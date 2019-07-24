@@ -33,7 +33,6 @@
         <item>MINOR</item>
         <item>WARNING</item>
         <item>INFO</item>
-        <item>ALL</item>
     </string-array>
 
     <string name="existing_alarms">Existing Alarms:</string>
