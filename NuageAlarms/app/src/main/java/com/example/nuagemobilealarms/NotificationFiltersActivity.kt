@@ -25,7 +25,6 @@ import com.google.firebase.messaging.FirebaseMessaging
 import java8.util.concurrent.CompletableFuture
 
 
-// TODO test with API level above and below 26
 class NotificationFiltersActivity : AppCompatActivity() {
     val TAG = "NotificationFiltersAct"
 
