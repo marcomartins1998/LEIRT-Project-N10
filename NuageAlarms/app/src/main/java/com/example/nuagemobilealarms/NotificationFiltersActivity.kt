@@ -24,7 +24,6 @@ import com.example.nuagemobilealarms.model.Filters
 import com.google.firebase.messaging.FirebaseMessaging
 import java8.util.concurrent.CompletableFuture
 
-
 class NotificationFiltersActivity : AppCompatActivity() {
     val TAG = "NotificationFiltersAct"
 
